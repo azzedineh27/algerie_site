@@ -1,3 +1,59 @@
+<?php
+// Inclure le modèle (supposons qu'il est dans le répertoire "models")
+require_once 'Models/Model_algerie.php';
+
+// Connexion à la base de données (modifier les paramètres avec les bons)
+$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
+
+// Vérifier si le formulaire est soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les données du formulaire
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $tel = $_POST['tel'];
+    $nationalite = $_POST['nationalite'];
+    $num_passeport = $_POST['passeport'];
+    $date_creation = $_POST['datecreation'];
+    $date_validite = $_POST['datevalidite'];
+    
+    // Gérer les documents téléchargés
+    if (isset($_FILES['documents']) && $_FILES['documents']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['documents']['tmp_name'];
+        $fileName = $_FILES['documents']['name'];
+        $fileSize = $_FILES['documents']['size'];
+        $fileType = $_FILES['documents']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+        $allowedfileExtensions = array('png', 'jpg', 'pdf');
+        
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            // Spécifier le chemin de stockage des fichiers
+            $uploadFileDir = './uploads/';
+            $dest_path = $uploadFileDir . $fileName;
+
+            // Déplacer le fichier dans le dossier souhaité
+            if(move_uploaded_file($fileTmpPath, $dest_path)) {
+                // Appeler le modèle pour créer une demande de visa
+                $nationalite_id = $model->getNationaliteId($nationalite);  // Hypothèse que cette méthode existe
+                $visa_id = $model->creerDemandeVisa($user_id, $num_passeport, $date_creation, $date_validite, $nationalite_id);
+
+                // Ajouter le document associé à la demande de visa
+                $model->ajouterDocument($visa_id, $fileName, $dest_path);
+
+                echo "Demande de visa créée avec succès.";
+            } else {
+                echo "Erreur lors du téléversement du fichier.";
+            }
+        } else {
+            echo "Type de fichier non autorisé.";
+        }
+    } else {
+        echo "Erreur lors de la soumission du fichier.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -191,14 +247,14 @@
     <nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
-            <a href="view_visa.php">Visa</a>
+            <a href="index.php?controller=pages&action=VISA">Visa</a>
             <a href="#">Culture de l'Algérie</a>
-            <a href="view_presse.php">Presse</a>
-            <a href="view_loterie.php">Loterie</a>
+            <a href="index.php?controller=pages&action=PRESSE">Presse</a>
+            <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
         <div class="action-btns">
             <a href="contact.html" class="contact-btn">Contact</a>
-            <a href="view_compte.php" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="#" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </nav>
 

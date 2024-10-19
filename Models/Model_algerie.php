@@ -1,5 +1,5 @@
 <?php
-class ConsulatAlgerieModel {
+class Model_algerie {
     private $pdo;
 
     public function __construct($host, $dbname, $username, $password) {
@@ -85,5 +85,13 @@ class ConsulatAlgerieModel {
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getNationaliteId($nationalite) {
+        $sql = "SELECT id FROM nationalities WHERE nationalite = :nationalite";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':nationalite' => $nationalite]);
+        return $stmt->fetchColumn();
+    }
+    
 }
 ?>

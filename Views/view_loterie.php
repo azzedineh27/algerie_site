@@ -213,10 +213,10 @@
     <nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
-            <a href="view_visa.php">Visa</a>
+            <a href="index.php?controller=pages&action=VISA">Visa</a>
             <a href="#">Culture de l'Algérie</a>
-            <a href="view_presse.php">Presse</a>
-            <a href="view_loterie.php">Loterie</a>
+            <a href="index.php?controller=pages&action=PRESSE">Presse</a>
+            <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
         <div class="action-btns">
             <a href="contact.html" class="contact-btn">Contact</a>
