@@ -12,7 +12,10 @@ class Controller_connexion extends Controller {
         // Code pour afficher la vue RGPD
         return $this->render('view_espace');
     }
-
+    public function action_ERREUR_VISA() {
+        // Code pour afficher la vue RGPD
+        return $this->render('view_erreur_visa');
+    }
     public function action_INSCRIPTION(){
         return $this->render('view_inscription'); 
     }

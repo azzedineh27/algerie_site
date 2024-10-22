@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
     // Rediriger ou afficher un message si l'utilisateur n'est pas connecté
-    die("Erreur : utilisateur non connecté.");
+    header("Location: index.php?controller=connexion&action=ERREUR_VISA");
 }
 
 // Connexion à la base de données
@@ -60,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -100,40 +99,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .logo {
             font-family: 'Roboto Slab', serif;
-            font-size: 2em;
-            color: #006233; /* Vert du drapeau */
+            font-size: 1.8em;
+            color: #006233;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             margin-right: auto;
             padding-left: 50px;
         }
 
         .nav-links a {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #006233;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #D52B1E; /* Rouge du drapeau */
+            color: #D52B1E;
         }
 
         .action-btns {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
 
         .contact-btn {
             border: 2px solid #006233;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 20px;
             text-decoration: none;
             color: #006233;
-            font-size: 1.1em;
+            font-size: 1em;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -144,33 +143,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /* Formulaire Visa */
         .visa-form-section {
-            padding: 50px 50px;
+            padding: 30px 20px;
             background-color: #f9f9f9;
             text-align: center;
+            margin-top: 80px;
         }
 
         .visa-form-section h2 {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #006233;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         form {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             background-color: white;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         form div {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
         }
 
         label {
-            font-size: 1.1em;
+            font-size: 1em;
             margin-bottom: 5px;
             display: block;
             color: #333;
@@ -178,25 +178,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         input, select {
             width: 100%;
-            padding: 10px;
-            font-size: 1em;
+            padding: 8px;
+            font-size: 0.9em;
             border: 2px solid #006233;
             border-radius: 5px;
             outline: none;
         }
 
         input[type="date"] {
-            padding: 9px;
+            padding: 7px;
         }
 
         .visa-form-submit {
-            margin-top: 30px;
+            margin-top: 20px;
             background-color: #006233;
             color: white;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 12px 25px;
+            font-size: 1.1em;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -206,22 +206,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         footer {
-            padding: 20px 0;
+            padding: 15px 0;
             background-color: #006233;
             color: white;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 40px;
         }
 
-        /* Red Section for error message (e.g., invalid passport or forbidden nationalities) */
         .error-message {
             background-color: #D52B1E;
             color: white;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
             border-radius: 5px;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
     </style>
@@ -234,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
-            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
@@ -254,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>Formulaire de Demande de Visa</h2>
 
         <!-- Message d'erreur -->
-        <div class="error-message" id="errorMessage" style="display: none;">
+        <div class="error-message" id="errorMessage">
             Votre passeport est invalide ou votre nationalité ne permet pas de demander un visa.
         </div>
 

@@ -100,6 +100,22 @@ class Model_algerie {
         $nationalitesInterdites = ['Israélienne', 'Kosovo', 'Taïwan'];
         return in_array($nationalite, $nationalitesInterdites);
     }
-    
+    // Récupérer les demandes de visa en attente
+    public function getDemandesVisaEnAttente() {
+        $sql = "SELECT vr.id, vr.nom, vr.prenom, vr.num_passeport, n.nationalite, vr.date_creation_passeport 
+                FROM visa_requests vr 
+                JOIN nationalities n ON vr.nationalite_id = n.id 
+                WHERE vr.status = 'En attente'";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Valider une demande de visa
+    public function validerDemandeVisa($visa_id) {
+        $sql = "UPDATE visa_requests SET status = 'Validé' WHERE id = :visa_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':visa_id' => $visa_id]);
+    }
+
 }
 ?>
