@@ -155,7 +155,7 @@ $prenom = $_SESSION['prenom'];
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
-            <a href="logout.php" class="contact-btn" title="Déconnexion"><span class="material-symbols-outlined">logout</span></a>
+            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Déconnexion"><span class="material-symbols-outlined">logout</span></a>
         </div>
     </nav>
 
@@ -164,7 +164,7 @@ $prenom = $_SESSION['prenom'];
         <h2>Bienvenue dans votre Espace Membre, <?php echo $prenom . " " . $nom; ?></h2>
         <p>Cet espace est réservé aux utilisateurs connectés. Vous pouvez gérer vos informations ici.</p>
 
-        <form action="logout.php" method="POST">
+        <form action="deconnexion.php" method="POST">
             <button type="submit" class="logout-btn">Se déconnecter</button>
         </form>
     </section>

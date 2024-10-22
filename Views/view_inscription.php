@@ -4,6 +4,22 @@
 // Inclure le fichier de modèle
 require_once 'Models/Model_algerie.php';
 
+
+// Démarrer la session si elle est pas deja active
+if (session_id() === '') {
+    session_start();
+  }
+
+// Vérifier si l'utilisateur est connecté
+$prenom = '';
+$lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
+
+if (isset($_SESSION['user_id'])) {
+    // Si l'utilisateur est connecté, rediriger vers la page de l'espace membre
+    $prenom = $_SESSION['prenom'];  // Récupérer le prénom de l'utilisateur
+    $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
+}
+
 // Vérifier si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données du formulaire
@@ -198,7 +214,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
-            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
+            <?php if ($prenom): ?>
+                <span class="contact-btn">Bonjour, <?php echo htmlspecialchars($prenom); ?></span>
+            <?php endif; ?>
+            <a href="<?php echo $lien_account; ?>" class="contact-btn" title="Espace Membre">
+                <span class="material-symbols-outlined">account_circle</span>
+            </a>
         </div>
     </nav>
 
