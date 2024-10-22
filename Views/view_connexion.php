@@ -1,52 +1,36 @@
 <?php
-// Inclure le modèle
+// Inclure le fichier du modèle
 require_once 'Models/Model_algerie.php';
 
-// Démarrer la session (si ce n'est pas déjà fait)
+// Démarrer la session pour gérer les connexions
 if (session_id() === '') {
     session_start();
   }
 
-// Vérifier si l'utilisateur est connecté
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-} else {
-    // Rediriger ou afficher un message si l'utilisateur n'est pas connecté
-    die("Erreur : utilisateur non connecté.");
-}
-
-// Connexion à la base de données
-$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
-
-// Vérifier si le formulaire est soumis
+// Vérifier si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Vérifier si l'utilisateur a déjà une demande de visa
-    if ($model->demandeVisaExiste($user_id)) {
-        echo "Vous avez déjà une demande de visa en cours.";
+    // Récupérer les données du formulaire
+    $email = $_POST['email'];
+    $mot_de_passe = $_POST['mot_de_passe'];
+
+    // Instancier le modèle pour interagir avec la base de données
+    $model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
+
+    // Authentifier l'utilisateur
+    $user = $model->authentifierUtilisateur($email, $mot_de_passe);
+
+    if ($user) {
+        // Si l'authentification est réussie, enregistrer les informations de l'utilisateur dans la session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['nom'] = $user['nom'];
+        $_SESSION['prenom'] = $user['prenom'];
+
+        // Rediriger vers la page d'accueil ou une autre page sécurisée
+        header("Location: index.php?controller=connexion&action=ESPACE");
+        exit;
     } else {
-        // Récupérer les données du formulaire
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $tel = $_POST['tel'];
-        $nationalite = $_POST['nationalite'];
-        $num_passeport = $_POST['passeport'];
-        $date_creation = $_POST['datecreation'];
-        $date_validite = $_POST['datevalidite'];
-
-        // Vérifier si la nationalité est interdite
-        if ($model->estNationaliteInterdite($nationalite)) {
-            echo "Désolé, les demandes de visa pour la nationalité choisie ne sont pas acceptées.";
-        } else {
-            // Créer une demande de visa
-            $nationalite_id = $model->getNationaliteId($nationalite);  // Récupérer l'ID de la nationalité
-            $visa_id = $model->creerDemandeVisa($user_id, $num_passeport, $date_creation, $date_validite, $nationalite_id);
-
-            if ($visa_id) {
-                echo "Demande de visa créée avec succès.";
-            } else {
-                echo "Erreur lors de la création de la demande.";
-            }
-        }
+        // Si l'authentification échoue, afficher un message d'erreur
+        $erreur = "Adresse email ou mot de passe incorrect.";
     }
 }
 ?>
@@ -56,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de Visa - Consulat d'Algérie</title>
+    <title>Connexion - Consulat d'Algérie</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    
+
     <style>
         * {
             margin: 0;
@@ -91,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .logo {
             font-family: 'Roboto Slab', serif;
             font-size: 2em;
-            color: #006233; /* Vert du drapeau */
+            color: #006233;
         }
 
         .nav-links {
@@ -109,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .nav-links a:hover {
-            color: #D52B1E; /* Rouge du drapeau */
+            color: #D52B1E;
         }
 
         .action-btns {
@@ -132,14 +116,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
         }
 
-        /* Formulaire Visa */
-        .visa-form-section {
+        /* Formulaire Connexion */
+        .login-form-section {
             padding: 50px 50px;
             background-color: #f9f9f9;
             text-align: center;
+            margin-top: 100px;
         }
 
-        .visa-form-section h2 {
+        .login-form-section h2 {
             font-size: 2.5em;
             color: #006233;
             margin-bottom: 30px;
@@ -166,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #333;
         }
 
-        input, select {
+        input {
             width: 100%;
             padding: 10px;
             font-size: 1em;
@@ -175,11 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             outline: none;
         }
 
-        input[type="date"] {
-            padding: 9px;
-        }
-
-        .visa-form-submit {
+        .login-form-submit {
             margin-top: 30px;
             background-color: #006233;
             color: white;
@@ -191,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: background-color 0.3s ease;
         }
 
-        .visa-form-submit:hover {
+        .login-form-submit:hover {
             background-color: #D52B1E;
         }
 
@@ -202,18 +183,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             margin-top: 50px;
         }
-
-        /* Red Section for error message (e.g., invalid passport or forbidden nationalities) */
-        .error-message {
-            background-color: #D52B1E;
-            color: white;
-            padding: 10px;
-            margin-bottom: 20px;
-            text-align: left;
-            border-radius: 5px;
-            display: none; /* Hidden by default */
-        }
-
     </style>
 </head>
 <body>
@@ -234,57 +203,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </nav>
 
-    <!-- Formulaire de demande de visa -->
-    <section class="visa-form-section">
-        <h2>Formulaire de Demande de Visa</h2>
+    <!-- Formulaire de Connexion -->
+    <section class="login-form-section">
+        <h2>Connexion à votre compte</h2>
 
-        <!-- Message d'erreur -->
-        <div class="error-message" id="errorMessage" style="display: none;">
-            Votre passeport est invalide ou votre nationalité ne permet pas de demander un visa.
-        </div>
-
-        <form id="visaForm" method="POST">
+        <form method="POST">
             <div>
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required>
+                <label for="email">Adresse email :</label>
+                <input type="email" id="email" name="email" required>
             </div>
 
             <div>
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required>
+                <label for="mot_de_passe">Mot de passe :</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" required>
             </div>
 
-            <div>
-                <label for="tel">Téléphone :</label>
-                <input type="tel" id="tel" name="tel" required>
-            </div>
-
-            <div>
-                <label for="nationalite">Nationalité :</label>
-                <select id="nationalite" name="nationalite" required>
-                    <option value="algérienne">Algérienne</option>
-                    <option value="française">Française</option>
-                    <option value="marocaine">Marocaine</option>
-                    <option value="espagnole">Espagnole</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="passeport">Numéro de Passeport :</label>
-                <input type="text" id="passeport" name="passeport" required>
-            </div>
-
-            <div>
-                <label for="datecreation">Date de Création du Passeport :</label>
-                <input type="date" id="datecreation" name="datecreation" required>
-            </div>
-
-            <div>
-                <label for="datevalidite">Date de Validité du Passeport :</label>
-                <input type="date" id="datevalidite" name="datevalidite" required>
-            </div>
-
-            <button type="submit" class="visa-form-submit">Soumettre la Demande</button>
+            <button type="submit" class="login-form-submit">Se connecter</button>
+            <a href="index.php?controller=connexion&action=INSCRIPTION" class="login-form-submit">Inscription</a>
         </form>
     </section>
 

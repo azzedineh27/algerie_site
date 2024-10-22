@@ -62,18 +62,13 @@ class Model_algerie {
         ]);
         return $this->pdo->lastInsertId();
     }
-
-    // Ajouter un document pour une demande de visa
-    public function ajouterDocument($visa_request_id, $nom_document, $chemin_fichier) {
-        $sql = "INSERT INTO documents (visa_request_id, nom_document, chemin_fichier) 
-                VALUES (:visa_request_id, :nom_document, :chemin_fichier)";
+    public function demandeVisaExiste($user_id) {
+        $sql = "SELECT COUNT(*) FROM visa_requests WHERE user_id = :user_id";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            ':visa_request_id' => $visa_request_id,
-            ':nom_document' => $nom_document,
-            ':chemin_fichier' => $chemin_fichier
-        ]);
+        $stmt->execute([':user_id' => $user_id]);
+        return $stmt->fetchColumn() > 0;
     }
+    
 
     // Récupérer une demande de visa par utilisateur
     public function getDemandesVisaParUtilisateur($user_id) {
@@ -91,6 +86,19 @@ class Model_algerie {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':nationalite' => $nationalite]);
         return $stmt->fetchColumn();
+    }
+
+    // Récupérer toutes les nationalités depuis la base de données
+    public function getNationalites() {
+        $sql = "SELECT * FROM nationalities";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Vérifier si une nationalité est interdite (Israélienne, Kosovo, Taïwan)
+    public function estNationaliteInterdite($nationalite) {
+        $nationalitesInterdites = ['Israélienne', 'Kosovo', 'Taïwan'];
+        return in_array($nationalite, $nationalitesInterdites);
     }
     
 }

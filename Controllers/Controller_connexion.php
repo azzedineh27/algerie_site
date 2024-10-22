@@ -9,7 +9,7 @@ class Controller_connexion extends Controller {
     }
 
     public function action_ESPACE() {
-        
+        // Code pour afficher la vue RGPD
         return $this->render('view_espace');
     }
 

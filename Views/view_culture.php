@@ -156,14 +156,15 @@ nav {
     <nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
+            <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
         <div class="action-btns">
-            <a href="contact.html" class="contact-btn">Contact</a>
-            <a href="view_compte.php" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
+            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </nav>
 
@@ -172,16 +173,16 @@ nav {
             Découvrez les stars de l'équipe de foot d'Algérie !
         </div>
         <div class="slider" style="--quantity: 10">
-            <div class="item" style="--position: 1"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/slimani.jpg" alt=""></div>
-            <div class="item" style="--position: 2"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/haliche.jpeg" alt=""></div>
-            <div class="item" style="--position: 3"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/mahrez.jpg" alt=""></div>
-            <div class="item" style="--position: 4"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/azz.jpg" alt=""></div>
-            <div class="item" style="--position: 5"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/ziani.jpeg" alt=""></div>
-            <div class="item" style="--position: 6"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/madjer.jpeg" alt=""></div>
-            <div class="item" style="--position: 7"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/belmadi.jpg" alt=""></div>
-            <div class="item" style="--position: 8"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/bougherra.jpg" alt=""></div>
-            <div class="item" style="--position: 9"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/brahimi.jpg" alt=""></div>
-            <div class="item" style="--position: 10"><img src="/home/student/905/12206506/Bureau/Mes_Montages/12206506/algerie_site/algerie_site/Images/bentaleb.webp" alt=""></div>
+            <div class="item" style="--position: 1"><img src="Images\azz.jpg" alt=""></div>
+            <div class="item" style="--position: 2"><img src="Images\belmadi.jpg" alt=""></div>
+            <div class="item" style="--position: 3"><img src="Images\bentaleb.webp" alt=""></div>
+            <div class="item" style="--position: 4"><img src="Images\bougherra.jpg" alt=""></div>
+            <div class="item" style="--position: 5"><img src="Images\brahimi.jpg" alt=""></div>
+            <div class="item" style="--position: 6"><img src="Images\haliche.jpeg" alt=""></div>
+            <div class="item" style="--position: 7"><img src="Images\madjer.jpeg" alt=""></div>
+            <div class="item" style="--position: 8"><img src="Images\mahrez.jpg" alt=""></div>
+            <div class="item" style="--position: 9"><img src="Images\slimani.jpg" alt=""></div>
+            <div class="item" style="--position: 10"><img src="Images\ziani.jpeg" alt=""></div>
         </div>
     </div>
 </body>

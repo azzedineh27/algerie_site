@@ -185,21 +185,22 @@
     <nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
+            <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
         <div class="action-btns">
-            <a href="contact.html" class="contact-btn">Contact</a>
-            <a href="#" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
+            <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
+            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
         </div>
     </nav>
 
     <!-- Background Video Section -->
     <div class="background-video">
         <video autoplay muted loop id="bg-video">
-            <source src="algerie_video.mp4" type="video/mp4">
+            <source src="Video/algerie_video.mp4" type="video/mp4">
             Votre navigateur ne supporte pas la vidéo.
         </video>
         <div class="content fade-in">
