@@ -214,7 +214,7 @@
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
             <a href="index.php?controller=pages&action=VISA">Visa</a>
-            <a href="#">Culture de l'Algérie</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
