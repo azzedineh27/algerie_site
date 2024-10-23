@@ -14,8 +14,6 @@ if (isset($_SESSION['user_id'])) {
     $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -98,6 +96,7 @@ if (isset($_SESSION['user_id'])) {
             color: white;
         }
 
+        /* Style de la roue */
         .container{
 	        width: 500px;
 	        height: 500px;
@@ -183,9 +182,6 @@ if (isset($_SESSION['user_id'])) {
 
         #spin{
 	        position: absolute;
-	        top: 50%;
-	        left: 50%;
-	        transform: translate(-50%, -50%);
 	        z-index: 10;
 	        background-color: #ffffff;
 	        text-transform: uppercase;
@@ -199,7 +195,6 @@ if (isset($_SESSION['user_id'])) {
 	        cursor: pointer;
 	        outline: none;
 	        letter-spacing: 1px;
-	        transition: background-color 0.3s ease, transform 0.3s ease;
 	        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
         }
 
@@ -207,7 +202,21 @@ if (isset($_SESSION['user_id'])) {
 	        transform: scale(0.95); /* Slight scale on click */
         }
 
-        #result{
+
+        #arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 50px solid red; /* Couleur de la flèche */
+            position: absolute;
+            top: calc(50% - 300px); /* Position au-dessus de la roue */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        #obtained {
 	        margin-top: 20px;
 	        font-size: 24px;
 	        color: #fff;
@@ -216,13 +225,69 @@ if (isset($_SESSION['user_id'])) {
 	        transition: opacity 1s ease;
         }
 
-        #result.hidden{
+        #result{
+	        margin-top: 10px;
+	        font-size: 24px;
+	        color: #fff;
+	        font-weight: bold;
+	        text-align: center;
+	        transition: opacity 1s ease;
+        }
+
+        #result.hidden, #obtained.hidden{
 	        opacity: 0;
         }
 
-        #result.visible{
+        #result.visible, #obtained.visible{
 	        opacity: 1;
         }
+
+        /* Ajoutez cette section à votre style CSS existant */
+
+/* Classe pour faire apparaître le message en grand et avec une animation incroyable */
+.big-text {
+    font-size: 50px; /* Taille énorme pour un impact */
+    color: #FFD700; /* Couleur or pour attirer l'attention */
+    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 
+                 0 0 40px rgba(6, 158, 59, 0.8), 
+                 0 0 60px rgba(6, 158, 59, 0.8); /* Effet lumineux */
+    transition: all 1s ease-in-out;
+    animation: pulse 2s infinite; /* Animation de pulsation infinie */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Grossit légèrement */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Style du bouton "Page de Visa Gratuit" */
+#visa-button {
+    display: none; /* Initialement caché */
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #006233; /* Vert algérien */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+}
+
+#visa-button:hover {
+    background-color: #D52B1E; /* Rouge algérien au survol */
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4); /* Augmentation de l'ombre au survol */
+}
+
 
     </style>
 </head>
@@ -248,74 +313,108 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </nav>
 
-	<!-- Spin Wheel Section -->
-	<button id="spin">Spin</button>
+    <!-- Flèche au-dessus de la roue -->
+    <div id="arrow"></div>
+
+    <!-- Spin Wheel Section -->
+    <button id="spin">Spin</button>
+    <button id="stop" style="position: absolute; right: 10%; top: 50%; transform: translateY(-50%); background-color: red; color: white; padding: 20px; border-radius: 50%; font-size: 20px; border: none; cursor: pointer;">Stop</button>
     <div class="container">
-	    <div class="one">1</div>
-	    <div class="two">Visa</div>
-	    <div class="three">3</div>
-	    <div class="four">Visa</div>
-	    <div class="five">5</div>
-	    <div class="six">6</div>
-	    <div class="seven">7</div>
-	    <div class="eight">8</div>
+        <div class="one">1</div>
+        <div class="two">Visa</div>
+        <div class="three">3</div>
+        <div class="four">Visa</div>
+        <div class="five">5</div>
+        <div class="six">6</div>
+        <div class="seven">7</div>
+        <div class="eight">8</div>
     </div>
-    <div id="result" class="hidden"></div>
-    
+
+    <!-- Ajouter le texte pour afficher la case obtenue -->
+    <div id="obtained" class="hidden"></div> <!-- Affiche le résultat obtenu -->
+    <div id="result" class="hidden"></div>   <!-- Affiche si tu as gagné ou perdu -->
+
+    <!-- Ajouter le bouton pour la demande de visa gratuit -->
+    <a href="index.php?controller=pages&action=GRATUIT" id="visa-button">Page de Visa Gratuit</a>
+
+
     <script>
-        let container = document.querySelector(".container");
-        let btn = document.getElementById("spin");
-        let resultDiv = document.getElementById("result");
+    const spinButton = document.getElementById('spin');
+    const resultDiv = document.getElementById('result');
+    const obtainedDiv = document.getElementById('obtained');
+    const wheel = document.querySelector('.container');
+    let spinning = false;
 
-        // Table des segments avec plus d'entrées pour les autres cases
-        let segments = [
-            "1", "3", "5", "6", "7", "8", // 6 segments normaux
-            "Visa", "Visa",               // 2 segments pour le visa
-        ];
+    // Les valeurs de la roue (2 chances sur 8 pour obtenir un visa)
+    const cases = ['1', 'Visa', '3', 'Visa', '5', '6', '7', '8'];
 
-        // Ajout de segments multiples pour ajuster les probabilités
-        let weightedSegments = [
-            ...Array(211).fill("1"), // Augmenter les chances d'obtenir d'autres numéros
-            "Visa", "Visa"           // Probabilité plus faible d'obtenir un visa (2 chances sur 213)
-        ];
+    // Fonction pour lancer la rotation de la roue
+    function spinWheel() {
+        if (spinning) return; // Empêche le démarrage d'une nouvelle rotation si déjà en cours
+        spinning = true;
+        resultDiv.classList.remove('visible');
+        resultDiv.classList.remove('big-text');
+        obtainedDiv.classList.add('hidden');
+        spinButton.disabled = true; // Désactiver le bouton après le premier clic
 
-        let clicks = 0;
-        btn.onclick = function () {
-            clicks += 1;
-            if (clicks == 1) {
-                // Masquer le résultat initialement
-                resultDiv.classList.remove('visible');
-                resultDiv.classList.add('hidden');
-                
-                // Ajout de la classe d'animation pour l'effet lumineux
-                container.classList.add('spin-active');
+        // Calcul d'une rotation aléatoire entre 2000 et 5000 degrés pour créer une impression de rotation longue
+        const randomDegree = Math.floor(Math.random() * 3000) + 2000;
+        wheel.style.transition = 'transform 5s cubic-bezier(0.33, 1, 0.68, 1)';
+        wheel.style.transform = `rotate(${randomDegree}deg)`;
 
-                // Sélection aléatoire basée sur les probabilités
-                let randomSegment = Math.floor(Math.random() * weightedSegments.length);
-                let chosenSegment = weightedSegments[randomSegment];
+        // Calcul du résultat après 5 secondes (durée de l'animation)
+        setTimeout(() => {
+            spinning = false;
+            const finalDegree = randomDegree % 360; // Garde la rotation finale entre 0 et 360 degrés
 
-                let segmentIndex = segments.indexOf(chosenSegment);
-                let degree = segmentIndex * 45; // Chaque segment fait 45 degrés
-                let rotation = 3600 + degree;   // Rotation multiple (3600 pour plusieurs tours)
+            // Calcul pour déterminer quelle case est sous la flèche
+            const caseAngleSize = 360 / cases.length; // Chaque case occupe un certain angle (45° ici)
 
-                container.style.transform = "rotate(" + rotation + "deg)";
-
-                // Afficher le résultat après l'animation
-                setTimeout(function () {
-                    // Supprimer l'effet lumineux
-                    container.classList.remove('spin-active');
-
-                    resultDiv.classList.remove('hidden');
-                    resultDiv.classList.add('visible');
-                    
-                    if (chosenSegment === "Visa") {
-                        resultDiv.innerText = "Tu as gagné un visa algérien!";
-                    } else {
-                        resultDiv.innerText = "Pas de visa algérien pour toi";
-                    }
-                }, 5000); // Attendre 5 secondes pour correspondre à la durée de l'animation
+            // Ajuster l'angle pour éviter les erreurs d'arrondi
+            let correctedDegree = (360 - finalDegree) + (caseAngleSize / 2);
+            if (correctedDegree > 360) {
+                correctedDegree = correctedDegree - 360; // Corrige pour rester dans la limite 0-360°
             }
+
+            // Trouver l'index correspondant à la case où s'arrête la roue
+            const index = Math.floor(correctedDegree / caseAngleSize);
+
+            // Récupère la case sélectionnée
+            const selectedCase = cases[index];
+
+            // Affiche le résultat
+            displayResult(selectedCase);
+        }, 5000);
+    }
+
+    // Fonction pour afficher le résultat
+    function displayResult(selectedCase) {
+        obtainedDiv.classList.remove('hidden');
+        resultDiv.classList.add('visible');
+
+        // Affiche la case obtenue (Visa ou nombre)
+        obtainedDiv.textContent = `Résultat obtenu : ${selectedCase}`;
+
+        // Si la case obtenue est "Visa", c'est un gain avec effet spécial
+        if (selectedCase === 'Visa') {
+            resultDiv.textContent = "Tu as gagné un visa algérien !";
+            resultDiv.classList.add('big-text'); // Animation spéciale pour le gain
+
+            // Afficher le bouton pour la page de visa gratuit
+            const visaButton = document.getElementById('visa-button');
+            visaButton.style.display = 'block'; // Afficher le bouton
+        } else {
+            resultDiv.textContent = "Tu as perdu, donc pas de visa pour toi.";
+            resultDiv.classList.add('big-text'); // Applique aussi la classe pour l'effet incroyable
         }
+    }
+
+
+
+    // Assigner la fonction de rotation au bouton Spin
+    spinButton.addEventListener('click', spinWheel);
     </script>
+
+
 </body>
 </html>

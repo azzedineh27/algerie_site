@@ -1,9 +1,8 @@
-
 <?php 
-// Démarrer la session si elle n'est pas déjà active
+// Démarrer la session si elle est pas deja active
 if (session_id() === '') {
     session_start();
-}
+  }
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
@@ -15,25 +14,6 @@ if (!isset($_SESSION['user_id'])) {
 // Si l'utilisateur est connecté, récupérer ses informations
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
-$user_id = $_SESSION['user_id'];
-
-// Connexion à la base de données
-require_once 'Models/Model_algerie.php';
-$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
-
-// Si l'utilisateur est un administrateur (ID 3)
-if ($user_id == 3) {
-    // Récupérer les demandes de visa "En attente"
-    $demandes = $model->getDemandesVisaEnAttente();
-
-    // Si une demande de validation est soumise
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valider_demande'])) {
-        $visa_id = $_POST['visa_id'];
-        $model->validerDemandeVisa($visa_id);
-        header("Location: admin.php");  // Recharge la page pour afficher la mise à jour
-        exit;
-    }
-}
 
 ?>
 
@@ -160,7 +140,6 @@ if ($user_id == 3) {
             text-align: center;
             margin-top: 50px;
         }
-
     </style>
 </head>
 <body>
@@ -176,7 +155,7 @@ if ($user_id == 3) {
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
-            <a href="deconnexion.php" class="contact-btn" title="Déconnexion"><span class="material-symbols-outlined">logout</span></a>
+            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Déconnexion"><span class="material-symbols-outlined">logout</span></a>
         </div>
     </nav>
 
@@ -184,42 +163,6 @@ if ($user_id == 3) {
     <section class="espace-section">
         <h2>Bienvenue dans votre Espace Membre, <?php echo $prenom . " " . $nom; ?></h2>
         <p>Cet espace est réservé aux utilisateurs connectés. Vous pouvez gérer vos informations ici.</p>
-
-        <?php if ($user_id == 3): ?>
-        <!-- Tableau des demandes de visa à valider pour l'administrateur -->
-        <h3>Demandes de visa en attente</h3>
-        <table border="1" cellpadding="10" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Numéro de Passeport</th>
-                    <th>Nationalité</th>
-                    <th>Date de création</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($demandes as $demande): ?>
-                <tr>
-                    <td><?php echo $demande['id']; ?></td>
-                    <td><?php echo $demande['nom']; ?></td>
-                    <td><?php echo $demande['prenom']; ?></td>
-                    <td><?php echo $demande['num_passeport']; ?></td>
-                    <td><?php echo $demande['nationalite']; ?></td>
-                    <td><?php echo $demande['date_creation_passeport']; ?></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="visa_id" value="<?php echo $demande['id']; ?>">
-                            <button type="submit" name="valider_demande">Valider</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <?php endif; ?>
 
         <form action="deconnexion.php" method="POST">
             <button type="submit" class="logout-btn">Se déconnecter</button>
