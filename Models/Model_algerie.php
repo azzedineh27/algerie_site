@@ -112,10 +112,11 @@ class Model_algerie {
 
     // Valider une demande de visa
     public function validerDemandeVisa($visa_id) {
-        $sql = "UPDATE visa_requests SET status = 'Validé' WHERE id = :visa_id";
+        $sql = "UPDATE visa_requests SET statut = 'Validé' WHERE id = :visa_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':visa_id' => $visa_id]);
     }
+    
 
 }
 ?>

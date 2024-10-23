@@ -1,8 +1,8 @@
 <?php 
-// Démarrer la session si elle est pas deja active
+// Démarrer la session si elle n'est pas déjà active
 if (session_id() === '') {
     session_start();
-  }
+}
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 // Si l'utilisateur est connecté, récupérer ses informations
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
-
+$user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
 ?>
 
 <!DOCTYPE html>
@@ -133,6 +133,23 @@ $prenom = $_SESSION['prenom'];
             background-color: #006233;
         }
 
+        /* Bouton Admin */
+        .admin-btn {
+            margin-top: 20px;
+            background-color: #006233;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .admin-btn:hover {
+            background-color: #D52B1E;
+        }
+
         footer {
             padding: 20px 0;
             background-color: #006233;
@@ -164,10 +181,17 @@ $prenom = $_SESSION['prenom'];
         <h2>Bienvenue dans votre Espace Membre, <?php echo $prenom . " " . $nom; ?></h2>
         <p>Cet espace est réservé aux utilisateurs connectés. Vous pouvez gérer vos informations ici.</p>
 
+        <!-- Afficher un bouton supplémentaire pour l'admin si l'utilisateur a l'ID 3 -->
+        <?php if ($user_id == 3): ?>
+            <a href="index.php?controller=pages&action=ADMIN" class="admin-btn">Créer des comptes utilisateur</a>
+        <?php endif; ?>
+
         <form action="deconnexion.php" method="POST">
             <button type="submit" class="logout-btn">Se déconnecter</button>
         </form>
     </section>
+
+
 
     <footer>
         © 2024 Consulat d'Algérie - Tous droits réservés

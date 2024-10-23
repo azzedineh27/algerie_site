@@ -27,6 +27,11 @@ class Controller_pages extends Controller {
         // Code pour afficher la vue CULTURE
         return $this->render('view_culture');
     }
+
+    public function action_ADMIN() {
+        // Code pour afficher la vue CULTURE
+        return $this->render('view_admin');
+    }
     public function action_default() {
         $this->action_VISA();
     }

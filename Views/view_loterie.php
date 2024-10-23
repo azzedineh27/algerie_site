@@ -1,17 +1,18 @@
 <?php
-// Démarrer la session si elle est pas deja active
+// Démarrer la session si elle n'est pas déjà active
 if (session_id() === '') {
     session_start();
-  }
+}
 
 // Vérifier si l'utilisateur est connecté
 $prenom = '';
 $lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
+$utilisateurConnecte = false; // Initialisation par défaut
 
 if (isset($_SESSION['user_id'])) {
-    // Si l'utilisateur est connecté, rediriger vers la page de l'espace membre
     $prenom = $_SESSION['prenom'];  // Récupérer le prénom de l'utilisateur
     $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
+    $utilisateurConnecte = true;  // L'utilisateur est connecté
 }
 ?>
 <!DOCTYPE html>
@@ -94,6 +95,13 @@ if (isset($_SESSION['user_id'])) {
         .contact-btn:hover {
             background-color: #D52B1E;
             color: white;
+        }
+
+        .big-title {
+            font-size: 50px;
+            color: #FFD700; /* Or pour attirer l'attention */
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         /* Style de la roue */
@@ -216,6 +224,33 @@ if (isset($_SESSION['user_id'])) {
             z-index: 10;
         }
 
+        .message {
+            background-color: #D52B1E; /* Rouge du drapeau algérien */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .connexion-btn {
+            padding: 15px 30px;
+            background-color: #006233; /* Vert algérien */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+        }
+
+        .connexion-btn:hover {
+            background-color: #D52B1E; /* Rouge algérien au survol */
+            box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4); /* Augmentation de l'ombre au survol */
+        }
+
+
         #obtained {
 	        margin-top: 20px;
 	        font-size: 24px;
@@ -293,12 +328,13 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
 
-    <nav>
+    
+<nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
-            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
         </div>
@@ -313,30 +349,41 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </nav>
 
-    <!-- Flèche au-dessus de la roue -->
-    <div id="arrow"></div>
+    <!-- Titre principal -->
+    <h1 class="big-title">Gagnez gratuitement un visa algérien</h1>
 
-    <!-- Spin Wheel Section -->
-    <button id="spin">Spin</button>
-    <button id="stop" style="position: absolute; right: 10%; top: 50%; transform: translateY(-50%); background-color: red; color: white; padding: 20px; border-radius: 50%; font-size: 20px; border: none; cursor: pointer;">Stop</button>
-    <div class="container">
-        <div class="one">1</div>
-        <div class="two">Visa</div>
-        <div class="three">3</div>
-        <div class="four">Visa</div>
-        <div class="five">5</div>
-        <div class="six">6</div>
-        <div class="seven">7</div>
-        <div class="eight">8</div>
-    </div>
+    <?php if ($utilisateurConnecte): ?>
+        <!-- Flèche au-dessus de la roue -->
+        <div id="arrow"></div>
 
-    <!-- Ajouter le texte pour afficher la case obtenue -->
-    <div id="obtained" class="hidden"></div> <!-- Affiche le résultat obtenu -->
-    <div id="result" class="hidden"></div>   <!-- Affiche si tu as gagné ou perdu -->
+        <!-- Spin Wheel Section -->
+        <button id="spin">Spin</button>
+        <div class="container">
+            <div class="one">1</div>
+            <div class="two">Visa</div>
+            <div class="three">3</div>
+            <div class="four">Visa</div>
+            <div class="five">5</div>
+            <div class="six">6</div>
+            <div class="seven">7</div>
+            <div class="eight">8</div>
+        </div>        
+        
+        <!-- Ajouter le texte pour afficher la case obtenue -->
+        <div id="obtained" class="hidden"></div> <!-- Affiche le résultat obtenu -->
+        <div id="result" class="hidden"></div>   <!-- Affiche si tu as gagné ou perdu -->
 
     <!-- Ajouter le bouton pour la demande de visa gratuit -->
     <a href="index.php?controller=pages&action=GRATUIT" id="visa-button">Page de Visa Gratuit</a>
+    <?php else: ?>
+        <!-- Message demandant de se connecter -->
+        <div class="message">
+            Vous devez être connecté pour tourner la roue et tenter de gagner un visa gratuit.
+        </div>
+        <a href="index.php?controller=connexion&action=CONNECT" class="connexion-btn">Se connecter</a>
 
+
+    <?php endif; ?>
 
     <script>
     const spinButton = document.getElementById('spin');

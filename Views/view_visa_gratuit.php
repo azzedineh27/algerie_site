@@ -1,5 +1,5 @@
 <?php
-// Démarrer la session si elle est pas deja active
+// Démarrer la session si elle n'est pas déjà active
 if (session_id() === '') {
     session_start();
 }
@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
 } else {
     // Rediriger si l'utilisateur n'est pas connecté
     header("Location: index.php?controller=connexion&action=ERREUR_VISA");
+    exit();
 }
 
 // Inclure le modèle pour la gestion des visas
@@ -27,7 +28,7 @@ $model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier si l'utilisateur a déjà une demande de visa
     if ($model->demandeVisaExiste($_SESSION['user_id'])) {
-        echo "Vous avez déjà une demande de visa en cours.";
+        echo "Votre demande de visa est déjà en attente ou validée.";
     } else {
         // Récupérer les données du formulaire
         $nom = $_POST['nom'];
@@ -47,7 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $visa_id = $model->creerDemandeVisa($_SESSION['user_id'], $num_passeport, $date_creation, $date_validite, $nationalite_id);
 
             if ($visa_id) {
-                echo "Votre demande de visa gratuit a été soumise avec succès.";
+                // Valider directement la demande de visa
+                if ($model->validerDemandeVisa($visa_id)) {
+                    echo "Votre demande de visa a été soumise et validée avec succès.";
+                } else {
+                    echo "Votre demande a été créée, mais une erreur est survenue lors de la validation.";
+                }
             } else {
                 echo "Erreur lors de la création de la demande.";
             }
@@ -55,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
