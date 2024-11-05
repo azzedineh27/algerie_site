@@ -12,7 +12,10 @@ class Controller_pages extends Controller {
         // Code pour afficher la vue GRATUIT
         return $this->render('view_visa_gratuit');
     }
-
+    public function action_TIRAGE() {
+        // Code pour afficher la vue LOTERIE
+        return $this->render('view_tirage');
+    }
     public function action_LOTERIE() {
         // Code pour afficher la vue LOTERIE
         return $this->render('view_loterie');

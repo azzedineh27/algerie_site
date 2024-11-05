@@ -211,6 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
@@ -246,6 +247,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="tel">Téléphone :</label>
                 <input type="tel" id="tel" name="tel" required>
+            </div>
+
+            <div>
+                <label for="nationalite">Nationalité :</label>
+                <input type="text" id="nationalite" name="nationalite" required>
             </div>
 
             <div>

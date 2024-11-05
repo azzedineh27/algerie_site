@@ -116,6 +116,46 @@ class Model_algerie {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':visa_id' => $visa_id]);
     }
+    public function getAllUsers() {
+        $sql = "SELECT * FROM users"; // Remplacez 'utilisateurs' par 'users'
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+    public function marquerCommeGagnant($userId) {
+        $sql = "UPDATE users SET gagnant = 1 WHERE id = :userId"; // Remplacez 'utilisateurs' par 'users'
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    
+
+    public function tirerAuSortGagnant() {
+        // Récupérer tous les utilisateurs
+        $sql = "SELECT id FROM users";
+        $stmt = $this->pdo->query($sql);
+        $utilisateurs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+        if (!$utilisateurs) {
+            return null; // Aucun utilisateur trouvé
+        }
+    
+        // Choisir un utilisateur aléatoire
+        $gagnantId = $utilisateurs[array_rand($utilisateurs)];
+    
+        // Marquer l'utilisateur comme gagnant
+        $this->marquerCommeGagnant($gagnantId);
+    
+        // Renvoyer les informations du gagnant
+        $sql = "SELECT * FROM users WHERE id = :gagnantId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':gagnantId' => $gagnantId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    
     
 
 }

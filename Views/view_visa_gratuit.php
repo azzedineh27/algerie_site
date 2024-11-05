@@ -238,6 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php?controller=pages&action=CULTURE">Culture</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>

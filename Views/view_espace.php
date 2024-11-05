@@ -169,9 +169,13 @@ $user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
+            <?php if ($prenom): ?>
+                <span class="contact-btn">Bonjour, <?php echo htmlspecialchars($prenom); ?></span>
+            <?php endif; ?>
             <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Déconnexion"><span class="material-symbols-outlined">logout</span></a>
         </div>
     </nav>

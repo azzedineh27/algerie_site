@@ -2,7 +2,7 @@
 // Démarrer la session si elle est pas deja active
 if (session_id() === '') {
     session_start();
-  }
+}
 
 // Vérifier si l'utilisateur est connecté
 $prenom = '';
@@ -14,7 +14,6 @@ if (isset($_SESSION['user_id'])) {
     $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -132,9 +131,11 @@ if (isset($_SESSION['user_id'])) {
             padding: 30px;
             display: flex;
             flex-direction: column;
+            align-items: center;
             text-align: left;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            min-height: 500px; /* Hauteur minimale pour uniformiser les cartes */
         }
 
         .article-card:hover {
@@ -166,9 +167,21 @@ if (isset($_SESSION['user_id'])) {
 
         .article-card img {
             width: 100%;
-            height: auto;
+            max-height: 400px; /* Limite la hauteur à 400px pour les grandes images */
+            object-fit: cover; /* Coupe l'image si elle dépasse les dimensions */
             border-radius: 10px;
             margin-bottom: 15px;
+        }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            .article-card img {
+                max-height: 200px; /* Réduit la hauteur pour les petits écrans */
+            }
+
+            .article-card {
+                min-height: auto; /* Permet aux cartes de s'adapter mieux aux petits écrans */
+            }
         }
 
         footer {
@@ -177,7 +190,6 @@ if (isset($_SESSION['user_id'])) {
             color: white;
             text-align: center;
         }
-
     </style>
 </head>
 <body>
@@ -190,6 +202,7 @@ if (isset($_SESSION['user_id'])) {
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
@@ -213,7 +226,7 @@ if (isset($_SESSION['user_id'])) {
 
         <!-- Example article card with the link you provided -->
         <div class="article-card">
-            <img src="visa_photo.webp" alt="Visa Algérien">
+            <img src="Images/visa.png" alt="Visa Algérien">
             <h2>Visa Algérien : Nouvelles régulations pour les voyageurs</h2>
             <p>Les voyageurs désireux de se rendre en Algérie doivent prendre en compte les nouvelles régulations concernant le visa. Ces changements concernent principalement la durée de validité et les catégories de voyageurs.</p>
             <a href="https://www.destination-algerie.net/actualite/30112-visa-algerien-voyageurs/" target="_blank">Lire l'article complet</a>
@@ -221,17 +234,17 @@ if (isset($_SESSION['user_id'])) {
 
         <!-- Add other article cards below in the same vertical format -->
         <div class="article-card">
-            <img src="https://via.placeholder.com/800x400" alt="Actualité politique">
+            <img src="Images/im2" alt="Actualité politique">
             <h2>Actualité politique en Algérie</h2>
             <p>Analyse des récents développements dans la politique intérieure de l'Algérie. Cet article se concentre sur les changements au sein du gouvernement et les impacts sur la société algérienne.</p>
-            <a href="article1.html">Lire l'article complet</a>
+            <a href="https://www.algerie360.com/category/algerie/politique/">Lire l'article complet</a>
         </div>
 
         <div class="article-card">
-            <img src="https://via.placeholder.com/800x400" alt="Développement économique">
+            <img src="Images/im4" alt="Développement économique">
             <h2>Développement économique en Algérie</h2>
             <p>Le secteur économique algérien se transforme avec de nouveaux projets d'investissement. Découvrez les initiatives en cours et les opportunités pour les entreprises locales et internationales.</p>
-            <a href="article2.html">Lire l'article complet</a>
+            <a href="https://www.banquemondiale.org/fr/news/feature/2024/07/22/algeria-s-ambitious-path-for-development">Lire l'article complet</a>
         </div>
 
     </section>

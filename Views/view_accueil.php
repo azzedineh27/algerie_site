@@ -98,12 +98,16 @@ if (isset($_SESSION['user_id'])) {
 
         .content {
             position: absolute;
-            top: 38%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
             text-align: center;
+            width: 100%;
+            padding: 0 20px;
+            z-index: 1;
         }
+
 
         .consulat-title {
             font-family: 'Roboto Slab', serif;
@@ -120,6 +124,7 @@ if (isset($_SESSION['user_id'])) {
         .consulat-title:hover {
             transform: rotateY(15deg) rotateX(5deg);
         }
+        
 
         /* Section Présentation */
         .presentation {
@@ -198,7 +203,7 @@ if (isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body>
-<nav>
+    <nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
@@ -206,6 +211,7 @@ if (isset($_SESSION['user_id'])) {
             <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
         </div>
         <div class="action-btns">
             <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
