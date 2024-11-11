@@ -1,46 +1,42 @@
-
-
 <?php
 // Inclure le fichier de modèle
 require_once 'Models/Model_algerie.php';
 
-
 // Démarrer la session si elle est pas deja active
 if (session_id() === '') {
     session_start();
-  }
+}
+
+// Connexion à la base de données
+$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
+
+// Récupérer les nationalités depuis la base de données
+$nationalites = $model->getNationalites();
 
 // Vérifier si l'utilisateur est connecté
 $prenom = '';
 $lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
 
 if (isset($_SESSION['user_id'])) {
-    // Si l'utilisateur est connecté, rediriger vers la page de l'espace membre
-    $prenom = $_SESSION['prenom'];  // Récupérer le prénom de l'utilisateur
-    $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
+    $prenom = $_SESSION['prenom'];
+    $lien_account = 'index.php?controller=connexion&action=ESPACE';
 }
 
 // Vérifier si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérer les données du formulaire
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
     $tel = $_POST['tel'];
+    $nationalite = $_POST['nationalite'];
     $mot_de_passe = $_POST['mot_de_passe'];
 
-    // Instancier le modèle pour interagir avec la base de données
-    $model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
-
-    // Vérifier si l'email existe déjà
     if ($model->emailExiste($email)) {
         echo "L'adresse email est déjà utilisée.";
     } else {
-        // Ajouter l'utilisateur dans la base de données
-        $user_id = $model->ajouterUtilisateur($nom, $prenom, $email, $tel, $mot_de_passe);
+        $user_id = $model->ajouterUtilisateur($nom, $prenom, $email, $tel, $nationalite,$mot_de_passe);
         
         if ($user_id) {
-            // Rediriger l'utilisateur après inscription réussie
             header("Location: index.php?controller=connexion&action=ESPACE");
             exit;
         } else {
@@ -166,13 +162,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #333;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             font-size: 1em;
             border: 2px solid #006233;
             border-radius: 5px;
             outline: none;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+        }
+
+        select {
+            padding-right: 30px; /* Espace pour flèche personnalisée */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23006233'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 15px;
         }
 
         .signup-form-submit {
@@ -228,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section class="signup-form-section">
         <h2>Créer un compte</h2>
 
-        <form  method="POST">
+        <form method="POST">
             <div>
                 <label for="nom">Nom :</label>
                 <input type="text" id="nom" name="nom" required>
@@ -251,7 +258,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div>
                 <label for="nationalite">Nationalité :</label>
-                <input type="text" id="nationalite" name="nationalite" required>
+                <select id="nationalite" name="nationalite" required>
+                    <?php foreach ($nationalites as $n): ?>
+                        <option value="<?php echo htmlspecialchars($n['nationalite']); ?>">
+                            <?php echo htmlspecialchars($n['nationalite']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div>

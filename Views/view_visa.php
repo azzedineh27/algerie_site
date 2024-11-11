@@ -1,38 +1,47 @@
 <?php
 // Inclure le modèle
 require_once 'Models/Model_algerie.php';
+// Inclure FPDF
+require 'vendor/autoload.php';
 
-// Démarrer la session (si ce n'est pas déjà fait)
+
+// Démarrer la session si pas deja fait
 if (session_id() === '') {
     session_start();
-  }
+}
 
-  // Vérifier si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté
 $prenom = '';
 $lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
-  
-  if (isset($_SESSION['user_id'])) {
-      // Si l'utilisateur est connecté, rediriger vers la page de l'espace membre
-      $prenom = $_SESSION['prenom'];  // Récupérer le prénom de l'utilisateur
-      $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
-  }
-  
-// Vérifier si l'utilisateur est connecté
+
 if (isset($_SESSION['user_id'])) {
+    // Si l'utilisateur est connecté, récupérer les informations de l'utilisateur
+    $prenom = $_SESSION['prenom'];
     $user_id = $_SESSION['user_id'];
+    $lien_account = 'index.php?controller=connexion&action=ESPACE';
 } else {
-    // Rediriger ou afficher un message si l'utilisateur n'est pas connecté
+    // Rediriger si l'utilisateur n'est pas connecté
     header("Location: index.php?controller=connexion&action=ERREUR_VISA");
+    exit;
 }
 
 // Connexion à la base de données
 $model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
 
+// Récupérer les nationalités depuis la base de données
+$nationalites = $model->getNationalites();
+
+// Initialisation du message d'erreur ou de succès
+$message = "";
+
 // Vérifier si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Dossier de destination pour les passeports
+    $dossierPasseports = 'C:/wamp64/www/algerie_site/Passeports/';
+    
     // Vérifier si l'utilisateur a déjà une demande de visa
     if ($model->demandeVisaExiste($user_id)) {
-        echo "Vous avez déjà une demande de visa en cours.";
+        $message = "<div class='error-message'>Vous avez déjà une demande de visa en cours.</div>";
     } else {
         // Récupérer les données du formulaire
         $nom = $_POST['nom'];
@@ -43,22 +52,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date_creation = $_POST['datecreation'];
         $date_validite = $_POST['datevalidite'];
 
-        // Vérifier si la nationalité est interdite
-        if ($model->estNationaliteInterdite($nationalite)) {
-            echo "Désolé, les demandes de visa pour la nationalité choisie ne sont pas acceptées.";
-        } else {
-            // Créer une demande de visa
-            $nationalite_id = $model->getNationaliteId($nationalite);  // Récupérer l'ID de la nationalité
-            $visa_id = $model->creerDemandeVisa($user_id, $num_passeport, $date_creation, $date_validite, $nationalite_id);
+        // Vérification du délai de 10 ans entre la date de création et la date de validité du passeport
+        $dateCreationObj = new DateTime($date_creation);
+        $dateValiditeObj = new DateTime($date_validite);
+        $interval = $dateCreationObj->diff($dateValiditeObj);
 
-            if ($visa_id) {
-                echo "Demande de visa créée avec succès.";
+        if ($interval->y != 10 || $interval->m != 0 || $interval->d != 0) {
+            // Si l'intervalle n'est pas exactement de 10 ans, afficher un message d'erreur
+            $message = "<div class='error-message'>Le délai entre la création et la validité du passeport doit etre de 10 ans.</div>";
+        } else {
+            // Vérifier le fichier téléchargé
+            if (isset($_FILES['fichier_passeport'])) {
+                $fichierTmp = $_FILES['fichier_passeport']['tmp_name'];
+                $fichierNom = basename($_FILES['fichier_passeport']['name']);
+                $fichierType = strtolower(pathinfo($fichierNom, PATHINFO_EXTENSION));
+                
+                // Valider le type de fichier et la taille
+                $typesPermis = ['pdf', 'jpg', 'jpeg', 'png'];
+                if (!in_array($fichierType, $typesPermis)) {
+                    $message = "<div class='error-message'>Le fichier doit être au format PDF, JPG, JPEG ou PNG et ne pas dépasser 5 Mo.</div>";
+                } else {
+                    // Générer un nom de fichier unique
+                    $fichierNouveauNom = uniqid("passeport_{$user_id}_") . '.' . $fichierType;
+                    $cheminFichierFinal = $dossierPasseports . $fichierNouveauNom;
+
+                    // Déplacer le fichier vers le dossier de destination
+                    if (move_uploaded_file($fichierTmp, $cheminFichierFinal)) {
+                        // Créer une demande de visa
+                        $nationalite_id = $model->getNationaliteId($nationalite);
+                        $visa_id = $model->creerDemandeVisa($user_id, $num_passeport, $date_creation, $date_validite, $nationalite_id);
+
+                        if ($visa_id) {
+                            $message = "<div class='success-message'>Demande de visa créée avec succès et passeport téléchargé.</div>";
+
+                            // Générer le PDF de confirmation
+                            $pdf = new FPDF();
+                            $pdf->AddPage();
+                            $pdf->SetFont('Arial', 'B', 16);
+
+                            // En-tête du PDF
+                            $pdf->Cell(0, 10, 'Demande de Visa - Consulat d\'Algerie', 0, 1, 'C');
+                            $pdf->Ln(10);
+
+                            // Informations de la demande
+                            $pdf->SetFont('Arial', '', 12);
+                            $pdf->Cell(0, 10, 'Informations de la Demande:', 0, 1);
+                            $pdf->Ln(5);
+
+                            // Afficher les informations du demandeur
+                            $pdf->SetFont('Arial', '', 12);
+                            $pdf->Cell(50, 10, 'Nom:', 0, 0);
+                            $pdf->Cell(0, 10, $nom, 0, 1);
+                            $pdf->Cell(50, 10, 'Prenom:', 0, 0);
+                            $pdf->Cell(0, 10, $prenom, 0, 1);
+                            $pdf->Cell(50, 10, 'Telephone:', 0, 0);
+                            $pdf->Cell(0, 10, $tel, 0, 1);
+                            $pdf->Cell(50, 10, 'Nationalite:', 0, 0);
+                            $pdf->Cell(0, 10, $nationalite, 0, 1);
+                            $pdf->Cell(50, 10, 'Numero de Passeport:', 0, 0);
+                            $pdf->Cell(0, 10, $num_passeport, 0, 1);
+                            $pdf->Cell(50, 10, 'Date Creation Passeport:', 0, 0);
+                            $pdf->Cell(0, 10, $date_creation, 0, 1);
+                            $pdf->Cell(50, 10, 'Date Validite Passeport:', 0, 0);
+                            $pdf->Cell(0, 10, $date_validite, 0, 1);
+                            $pdf->Cell(50, 10, 'La demande de visa est en attente veuillez attendre la confirmation dans un delai de 2 à 4 semaines.', 0, 0);
+
+                            // Sauvegarder et télécharger le PDF
+                            $pdf_name = "Demande_Visa_{$user_id}.pdf";
+                            $pdf->Output('D', $pdf_name);
+                            exit;
+                        } else {
+                            $message = "<div class='error-message'>Erreur lors de la création de la demande.</div>";
+                        }
+                    } else {
+                        $message = "<div class='error-message'>Erreur lors du téléchargement du fichier.</div>";
+                    }
+                }
             } else {
-                echo "Erreur lors de la création de la demande.";
+                $message = "<div class='error-message'>Veuillez télécharger un fichier de passeport valide.</div>";
             }
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -68,14 +144,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Demande de Visa - Consulat d'Algérie</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    
     <style>
+        /* Styles de base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body, html {
             height: 100%;
             font-family: 'Open Sans', sans-serif;
@@ -83,7 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #333;
             scroll-behavior: smooth;
         }
-
         nav {
             position: fixed;
             top: 0;
@@ -96,36 +170,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 10;
         }
-
         .logo {
             font-family: 'Roboto Slab', serif;
             font-size: 1.8em;
             color: #006233;
         }
-
         .nav-links {
             display: flex;
             gap: 20px;
             margin-right: auto;
             padding-left: 50px;
         }
-
         .nav-links a {
             font-size: 1em;
             color: #006233;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
         .nav-links a:hover {
             color: #D52B1E;
         }
-
         .action-btns {
             display: flex;
             gap: 15px;
         }
-
         .contact-btn {
             border: 2px solid #006233;
             padding: 8px 16px;
@@ -135,7 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 1em;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-
         .contact-btn:hover {
             background-color: #D52B1E;
             color: white;
@@ -148,13 +215,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             margin-top: 80px;
         }
-
         .visa-form-section h2 {
             font-size: 2em;
             color: #006233;
             margin-bottom: 20px;
         }
-
         form {
             max-width: 600px;
             margin: 0 auto;
@@ -163,19 +228,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         form div {
             margin-bottom: 15px;
             text-align: left;
         }
-
         label {
             font-size: 1em;
             margin-bottom: 5px;
             display: block;
             color: #333;
         }
-
         input, select {
             width: 100%;
             padding: 8px;
@@ -184,11 +246,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 5px;
             outline: none;
         }
-
-        input[type="date"] {
-            padding: 7px;
-        }
-
         .visa-form-submit {
             margin-top: 20px;
             background-color: #006233;
@@ -200,19 +257,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .visa-form-submit:hover {
             background-color: #D52B1E;
         }
-
-        footer {
-            padding: 15px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
-            margin-top: 40px;
-        }
-
         .error-message {
             background-color: #D52B1E;
             color: white;
@@ -220,9 +267,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 15px;
             text-align: left;
             border-radius: 5px;
-            display: none;
         }
-
+        .success-message {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: left;
+            border-radius: 5px;
+        }
+        footer {
+            padding: 15px 0;
+            background-color: #006233;
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
@@ -253,12 +313,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section class="visa-form-section">
         <h2>Formulaire de Demande de Visa</h2>
 
-        <!-- Message d'erreur -->
-        <div class="error-message" id="errorMessage">
-            Votre passeport est invalide ou votre nationalité ne permet pas de demander un visa.
-        </div>
+        <!-- Message de validation ou d'erreur -->
+        <?php echo $message; ?>
 
-        <form id="visaForm" method="POST">
+        <form id="visaForm" method="POST" enctype="multipart/form-data">
             <div>
                 <label for="nom">Nom :</label>
                 <input type="text" id="nom" name="nom" required>
@@ -277,10 +335,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="nationalite">Nationalité :</label>
                 <select id="nationalite" name="nationalite" required>
-                    <option value="algérienne">Algérienne</option>
-                    <option value="française">Française</option>
-                    <option value="marocaine">Marocaine</option>
-                    <option value="espagnole">Espagnole</option>
+                    <?php foreach ($nationalites as $n): ?>
+                        <option value="<?php echo htmlspecialchars($n['nationalite']); ?>">
+                            <?php echo htmlspecialchars($n['nationalite']); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -297,6 +356,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="datevalidite">Date de Validité du Passeport :</label>
                 <input type="date" id="datevalidite" name="datevalidite" required>
+            </div>
+            <div>
+                <label for="fichier_passeport">Télécharger le passeport :</label>
+                <input type="file" id="fichier_passeport" name="fichier_passeport" accept=".pdf,.jpg,.jpeg,.png" required>
             </div>
 
             <button type="submit" class="visa-form-submit">Soumettre la Demande</button>

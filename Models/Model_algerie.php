@@ -12,8 +12,8 @@ class Model_algerie {
     }
 
     // Ajouter un utilisateur
-    public function ajouterUtilisateur($nom, $prenom, $email, $tel, $mot_de_passe) {
-        $sql = "INSERT INTO users (nom, prenom, email, tel, mot_de_passe) VALUES (:nom, :prenom, :email, :tel, :mot_de_passe)";
+    public function ajouterUtilisateur($nom, $prenom, $email, $tel, $nationalite, $mot_de_passe) {
+        $sql = "INSERT INTO users (nom, prenom, email, tel, nationalite, mot_de_passe) VALUES (:nom, :prenom, :email, :tel, :nationalite, :mot_de_passe)";
         $stmt = $this->pdo->prepare($sql);
         $hashed_password = password_hash($mot_de_passe, PASSWORD_DEFAULT);
         $stmt->execute([
@@ -21,6 +21,7 @@ class Model_algerie {
             ':prenom' => $prenom,
             ':email' => $email,
             ':tel' => $tel,
+            ':nationalite'=>$nationalite,
             ':mot_de_passe' => $hashed_password
         ]);
         return $this->pdo->lastInsertId();
@@ -117,7 +118,7 @@ class Model_algerie {
         $stmt->execute([':visa_id' => $visa_id]);
     }
     public function getAllUsers() {
-        $sql = "SELECT * FROM users"; // Remplacez 'utilisateurs' par 'users'
+        $sql = "SELECT * FROM users";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -125,7 +126,7 @@ class Model_algerie {
     
     
     public function marquerCommeGagnant($userId) {
-        $sql = "UPDATE users SET gagnant = 1 WHERE id = :userId"; // Remplacez 'utilisateurs' par 'users'
+        $sql = "UPDATE users SET gagnant = 1 WHERE id = :userId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
@@ -155,6 +156,21 @@ class Model_algerie {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+    public function ajouterFeedback($user_id, $commentaire, $note) {
+        $stmt = $this->pdo->prepare("INSERT INTO feedbacks (user_id, commentaire, note, date) VALUES (?, ?, ?, NOW())");
+        return $stmt->execute([$user_id, $commentaire, $note]);
+    }
+    
+    public function getAllFeedbacks() {
+        $stmt = $this->pdo->query("SELECT * FROM feedbacks ORDER BY date DESC");
+        return $stmt->fetchAll();
+    }
+    
+    public function calculerMoyenneNotes() {
+        $stmt = $this->pdo->query("SELECT AVG(note) as moyenne FROM feedbacks");
+        $result = $stmt->fetch();
+        return $result ? $result['moyenne'] : 0;
+    }
     
     
 
