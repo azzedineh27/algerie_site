@@ -21,6 +21,11 @@ class Controller_footer extends Controller {
         return $this->render('view_avis');
     }
 
+    public function action_QUIZ() {
+        // Code pour afficher la vue AVIS
+        return $this->render('view_quiz');
+    }
+
     public function action_default() {
         $this->action_contact();
     }
