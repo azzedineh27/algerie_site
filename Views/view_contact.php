@@ -195,17 +195,17 @@ if (isset($_SESSION['user_id'])) {
         <form>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Votre email" required>
+                <input type="email" id="email" name="email" placeholder="Votre email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Veuillez entrer une adresse e-mail valide." required>
             </div>
 
             <div class="form-group">
                 <label for="tel">Téléphone</label>
-                <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" required>
+                <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" pattern="\d{10}" title="Le numéro de téléphone doit contenir 10 chiffres." required>
             </div>
 
             <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+                <textarea id="message" name="message" placeholder="Votre message" pattern="[A-Za-zÀ-ÿ0-9\s\.,\-']+" title="Le message ne peut contenir que des lettres, des chiffres, des espaces, des points, des virgules, des tirets et des apostrophes." required></textarea>
             </div>
 
             <button type="submit">Envoyer</button>

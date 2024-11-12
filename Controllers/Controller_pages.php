@@ -20,6 +20,12 @@ class Controller_pages extends Controller {
         // Code pour afficher la vue LOTERIE
         return $this->render('view_loterie');
     }
+    public function action_DEJEUNER() {
+        // Code pour afficher la vue LOTERIE
+        return $this->render('view_dejeuner');
+    }
+
+
 
     public function action_PRESSE() {
         // Code pour afficher la vue PRESSE

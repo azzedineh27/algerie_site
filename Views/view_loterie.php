@@ -351,7 +351,7 @@ if (isset($_SESSION['user_id'])) {
     </nav>
 
     <!-- Titre principal -->
-    <h1 class="big-title">Gagnez gratuitement un visa algérien</h1>
+    <h1 class="big-title">Gagnez gratuitement un déjeuner algérien</h1>
 
     <?php if ($utilisateurConnecte): ?>
         <!-- Flèche au-dessus de la roue -->
@@ -360,26 +360,26 @@ if (isset($_SESSION['user_id'])) {
         <!-- Spin Wheel Section -->
         <button id="spin">Spin</button>
         <div class="container">
-            <div class="one">1</div>
-            <div class="two">Visa</div>
-            <div class="three">3</div>
-            <div class="four">Visa</div>
-            <div class="five">5</div>
-            <div class="six">6</div>
-            <div class="seven">7</div>
-            <div class="eight">8</div>
+            <div class="one">Perdu</div>
+            <div class="two">Gagné</div>
+            <div class="three">Perdu</div>
+            <div class="four">Gagné</div>
+            <div class="five">Perdu</div>
+            <div class="six">Perdu</div>
+            <div class="seven">Perdu</div>
+            <div class="eight">Perdu</div>
         </div>        
         
         <!-- Ajouter le texte pour afficher la case obtenue -->
         <div id="obtained" class="hidden"></div> <!-- Affiche le résultat obtenu -->
         <div id="result" class="hidden"></div>   <!-- Affiche si tu as gagné ou perdu -->
 
-    <!-- Ajouter le bouton pour la demande de visa gratuit -->
-    <a href="index.php?controller=pages&action=GRATUIT" id="visa-button">Page de Visa Gratuit</a>
+    <!-- Ajouter le bouton pour la demande de Déjeuner gratuit -->
+    <a href="index.php?controller=pages&action=GRATUIT" id="visa-button">Page de Déjeuner Gratuit</a>
     <?php else: ?>
         <!-- Message demandant de se connecter -->
         <div class="message">
-            Vous devez être connecté pour tourner la roue et tenter de gagner un visa gratuit.
+            Vous devez être connecté pour tourner la roue et tenter de gagner dejeuner gratuit.
         </div>
         <a href="index.php?controller=connexion&action=CONNECT" class="connexion-btn">Se connecter</a>
 
@@ -394,7 +394,7 @@ if (isset($_SESSION['user_id'])) {
     let spinning = false;
 
     // Les valeurs de la roue (2 chances sur 8 pour obtenir un visa)
-    const cases = ['1', 'Visa', '3', 'Visa', '5', '6', '7', '8'];
+    const cases = ['Perdu', 'Gagné', 'Perdu', 'Gagné', 'Perdu', 'Perdu', 'Perdu', 'Perdu'];
 
     // Fonction pour lancer la rotation de la roue
     function spinWheel() {
@@ -444,7 +444,7 @@ if (isset($_SESSION['user_id'])) {
         obtainedDiv.textContent = `Résultat obtenu : ${selectedCase}`;
 
         // Si la case obtenue est "Visa", c'est un gain avec effet spécial
-        if (selectedCase === 'Visa') {
+        if (selectedCase === 'Gagné') {
             resultDiv.textContent = "Tu as gagné un visa algérien !";
             resultDiv.classList.add('big-text'); // Animation spéciale pour le gain
 
@@ -452,17 +452,14 @@ if (isset($_SESSION['user_id'])) {
             const visaButton = document.getElementById('visa-button');
             visaButton.style.display = 'block'; // Afficher le bouton
         } else {
-            resultDiv.textContent = "Tu as perdu, donc pas de visa pour toi.";
+            resultDiv.textContent = "Tu as perdu, donc pas de déjeuner pour toi.";
             resultDiv.classList.add('big-text'); // Applique aussi la classe pour l'effet incroyable
         }
     }
 
-
-
     // Assigner la fonction de rotation au bouton Spin
     spinButton.addEventListener('click', spinWheel);
     </script>
-
 
 </body>
 </html>

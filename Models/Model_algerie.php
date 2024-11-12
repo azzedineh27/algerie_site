@@ -188,5 +188,17 @@ class Model_algerie {
         $result = $stmt->fetch();
         return $result ? $result['moyenne'] : 0;
     }
+
+    // Méthode pour offrir un déjeuner gratuit
+    public function offrirDejeuner($email, $prenom) {
+        $sql = "UPDATE users SET dejeuner = 1 WHERE email = :email AND prenom = :prenom";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':email' => $email,
+            ':prenom' => $prenom
+        ]);
+
+        return $stmt->rowCount() > 0; // Retourne vrai si une ligne a été mise à jour
+    }
 }
 ?>
