@@ -1,20 +1,81 @@
 <?php
-// Démarrer la session si elle est pas deja active
+// Démarrer la session si elle n'est pas déjà active
 if (session_id() === '') {
     session_start();
-  }
+}
 
 // Vérifier si l'utilisateur est connecté
 $prenom = '';
-$lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
+$lien_account = 'index.php?controller=connexion&action=CONNECT';
 
 if (isset($_SESSION['user_id'])) {
-    // Si l'utilisateur est connecté, rediriger vers la page de l'espace membre
-    $prenom = $_SESSION['prenom'];  // Récupérer le prénom de l'utilisateur
-    $lien_account = 'index.php?controller=connexion&action=ESPACE';  // Lien vers l'espace membre
+    $prenom = $_SESSION['prenom'];
+    $lien_account = 'index.php?controller=connexion&action=ESPACE';
+}
+
+// Inclusion de PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; // PHPMailer Autoload
+
+// Initialisation du message de confirmation d'envoi
+$message_envoye = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupération des données du formulaire
+    $nom = $_POST['nom'];
+    $email = $_POST['email'];
+    $tel = $_POST['tel'];
+    $message_content = $_POST['message'];
+
+    // Configuration de PHPMailer
+    $mail = new PHPMailer(true);
+
+    try {
+        // Paramètres du serveur SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Remplacez par votre serveur SMTP
+        $mail->SMTPAuth = true;
+        $mail->Username = 'azzedinehatem@gmail.com'; // Utilisez votre adresse e-mail réelle
+        $mail->Password = 'uhjn odic cxzd deco'; // Utilisez votre mot de passe réel ou mot de passe d'application
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Destinataire et expéditeur
+        $mail->setFrom('azzedinehatem@gmail.com', 'Expediteur'); // Utilisez votre adresse e-mail réelle comme expéditeur
+        $mail->addAddress('azzedinehatem@gmail.com', 'Nom du Destinataire');
+
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
+        
+
+        // Contenu de l'email
+        $mail->isHTML(true);
+        $mail->Subject = 'Nouveau message depuis le formulaire de contact';
+        $mail->Body = "
+            <h2>Nouveau message de contact</h2>
+            <p><strong>Nom :</strong> $nom</p>
+            <p><strong>Email :</strong> $email</p>
+            <p><strong>Téléphone :</strong> $tel</p>
+            <p><strong>Message :</strong><br>$message_content</p>
+        ";
+        $mail->AltBody = "Nom : $nom\nEmail : $email\nTéléphone : $tel\nMessage : $message_content";
+        
+
+        // Envoi de l'email
+        $mail->send();
+        $message_envoye = 'Votre message a été envoyé avec succès !';
+    } catch (Exception $e) {
+        $message_envoye = "Erreur lors de l'envoi : " . $mail->ErrorInfo;
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -169,8 +230,8 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
 
-    <!-- Barre de navigation -->
-    <nav>
+<!-- Barre de navigation -->
+<nav>
         <div class="logo">Consulat d'Algérie</div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
@@ -187,35 +248,34 @@ if (isset($_SESSION['user_id'])) {
                 <span class="material-symbols-outlined">account_circle</span>
             </a>
         </div>
-    </nav>
+</nav>
 
-    <!-- Formulaire de contact -->
-    <div class="container">
-        <h2>Contactez-nous</h2>
-        <form>
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" placeholder="Votre nom" pattern="[A-Za-zÀ-ÿ\s\-']+" title="Le nom ne peut contenir que des lettres, des espaces, des tirets et des apostrophes." required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Votre email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Veuillez entrer une adresse e-mail valide." required>
-            </div>
-
-            <div class="form-group">
-                <label for="tel">Téléphone</label>
-                <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" pattern="\d{10}" title="Le numéro de téléphone doit contenir 10 chiffres." required>
-            </div>
-
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Votre message" pattern="[A-Za-zÀ-ÿ0-9\s\.,\-']+" title="Le message ne peut contenir que des lettres, des chiffres, des espaces, des points, des virgules, des tirets et des apostrophes." required></textarea>
-            </div>
-
-            <button type="submit">Envoyer</button>
-        </form>
-    </div>
+<!-- Formulaire de contact -->
+<div class="container">
+    <h2>Contactez-nous</h2>
+    <?php if ($message_envoye): ?>
+        <p style="color: green;"><?php echo htmlspecialchars($message_envoye); ?></p>
+    <?php endif; ?>
+    <form method="POST" action="">
+        <div class="form-group">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Votre email" required>
+        </div>
+        <div class="form-group">
+            <label for="tel">Téléphone</label>
+            <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+        </div>
+        <button type="submit">Envoyer</button>
+    </form>
+</div>
 
 </body>
 </html>

@@ -24,8 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $answers_easy = [
         'question1' => 'Abdelmajid Tebboune', // Président actuel
         'question2' => 'Dinar', // Monnaie
-        'question3' => 'Alger' // Capitale
-    ];
+        'question3' => 'Alger', // Capitale
+        'question4' => '2' // Nombre de CAN remportées
+    ];    
 
     foreach ($answers_easy as $question => $correct_answer) {
         if (isset($_POST[$question]) && strtolower(trim($_POST[$question])) == strtolower($correct_answer)) {
@@ -234,20 +235,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Section 1: Questions Faciles -->
             <div class="quiz-section">
                 <h3>Questions Faciles</h3>
-                <p>1. Qui est le président actuel de l'Algérie ?</p>
+                <p>1. Qui est le président actuel de l'Algérie ? (Prénom et Nom)</p>
                 <input type="text" name="question1" required>
 
-                <p>2. Quelle est la monnaie officielle de l'Algérie ?</p>
+                <p>2. Quelle est la monnaie officielle de l'Algérie ? (Un mot)</p>
                 <input type="text" name="question2" required>
 
-                <p>3. Quelle est la capitale de l'Algérie ?</p>
+                <p>3. Quelle est la capitale de l'Algérie ? (Une ville)</p>
                 <input type="text" name="question3" required>
+
+                <p>4. Combien de CAN a remporté l'Algérie? (Un chiffre)</p>
+                <input type="text" name="question4" required>
             </div>
 
-            <!-- Section 2: Reconnaissance de Personnes -->
             <div class="quiz-section">
                 <h3>Reconnaissance de Personnes</h3>
-                <p>4. Nommez 5 personnes célèbres parmi les stars de l'équipe de foot d'Algérie visibles dans le carrousel.</p>
+                <p>4. Nommez 5 personnes célèbres parmi les stars de l'équipe de foot d'Algérie visibles dans le carrousel. (Une personne célèbre cachée)</p>
                 <input type="text" name="person1" placeholder="Personne 1" required>
                 <input type="text" name="person2" placeholder="Personne 2" required>
                 <input type="text" name="person3" placeholder="Personne 3" required>
