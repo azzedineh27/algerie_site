@@ -2,7 +2,9 @@
 class Model_algerie {
     private $pdo;
 
-    public function __construct($host, $dbname, $username, $password) {
+
+
+    public function __construct($host, $dbname, $username, $password) { #Construire un objet pour la connexion à la BD MySQL
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -117,8 +119,8 @@ class Model_algerie {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':visa_id' => $visa_id]);
     }
-    public function getAllUsers() {
-        $sql = "SELECT * FROM users";
+    public function getAllUserssansAlgerie() {
+        $sql = "SELECT * FROM users WHERE nationalite != 'Algérienne'";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -131,23 +133,36 @@ class Model_algerie {
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    public function mettreAJourNationalite($userId, $nouvelleNationalite = 'Algérienne') {
+        $sql = "UPDATE users SET nationalite = :nouvelleNationalite WHERE id = :userId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':nouvelleNationalite' => $nouvelleNationalite,
+            ':userId' => $userId
+        ]);
+    }
     
 
     public function tirerAuSortGagnant() {
-        // Récupérer tous les utilisateurs
-        $sql = "SELECT id FROM users";
+        // Récupérer les utilisateurs dont la nationalité n'est pas "Algérienne"
+        $sql = "SELECT id FROM users WHERE nationalite != 'Algérienne'";
         $stmt = $this->pdo->query($sql);
         $utilisateurs = $stmt->fetchAll(PDO::FETCH_COLUMN);
     
+        // Vérifier si la liste n'est pas vide
         if (!$utilisateurs) {
-            return null; // Aucun utilisateur trouvé
+            return null; // Aucun utilisateur éligible trouvé
         }
     
-        // Choisir un utilisateur aléatoire
+        // Choisir un utilisateur aléatoire parmi les utilisateurs éligibles
         $gagnantId = $utilisateurs[array_rand($utilisateurs)];
     
         // Marquer l'utilisateur comme gagnant
         $this->marquerCommeGagnant($gagnantId);
+    
+        // Mettre à jour la nationalité du gagnant en "Algérienne"
+        $this->mettreAJourNationalite($gagnantId, 'Algérienne');
     
         // Renvoyer les informations du gagnant
         $sql = "SELECT * FROM users WHERE id = :gagnantId";
@@ -155,6 +170,8 @@ class Model_algerie {
         $stmt->execute([':gagnantId' => $gagnantId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+
     
     public function ajouterFeedback($user_id, $commentaire, $note) {
         $stmt = $this->pdo->prepare("INSERT INTO feedbacks (user_id, commentaire, note, date) VALUES (?, ?, ?, NOW())");
@@ -171,8 +188,5 @@ class Model_algerie {
         $result = $stmt->fetch();
         return $result ? $result['moyenne'] : 0;
     }
-    
-    
-
 }
 ?>

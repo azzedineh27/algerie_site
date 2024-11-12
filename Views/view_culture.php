@@ -118,9 +118,16 @@ if (isset($_SESSION['user_id'])) {
             margin-bottom: 10px;
         }
 
+        /* Section contenant Gastronomie et Palmarès */
+        .content-sections {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #F5F5F5;
+        }
+
         /* Section Gastronomie */
         .gastronomie {
-            background-color: #F5F5F5;
             padding: 50px;
             text-align: center;
         }
@@ -161,20 +168,12 @@ if (isset($_SESSION['user_id'])) {
             color: #25283B;
         }
 
-        /* Banner Section */
+        /* Section Palmarès */
         .section_trophies {
-            width: 100%;
-            min-height: 100vh;
+            padding: 50px;
             text-align: center;
             overflow: visible;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10;
             background: #F5F5F5;
-            padding: 40px 0;
         }
 
         .section_trophies h2 {
@@ -215,6 +214,63 @@ if (isset($_SESSION['user_id'])) {
             font-size: 1.1em;
         }
 
+        footer {
+            padding: 40px 0;
+            background-color: #006233;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #D52B1E; /* Rouge du drapeau */
+        }
+
+        .footer-section {
+            text-align: center;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #D0D0D0;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #D0D0D0;
+        }
+
     </style>
 </head>
 
@@ -252,50 +308,97 @@ if (isset($_SESSION['user_id'])) {
         <p>L'Algérie, un carrefour de cultures, est célèbre pour ses traditions et sa cuisine diversifiée, fusionnant des influences méditerranéennes, berbères, arabes et françaises.</p>
     </section>
 
-    <!-- Section Gastronomie Algérienne -->
-    <section class="gastronomie">
-        <h2>Gastronomie Algérienne : Un Voyage de Saveurs</h2>
-        <div class="gastronomie-details">
-            <div class="gastronomie-item">
-                <img src="Images/couscous.jpeg" alt="Couscous">
-                <p><strong>Couscous :</strong> Le plat emblématique de l'Algérie, composé de semoule de blé dur, accompagné de légumes et de viande.</p>
+    <!-- Conteneur pour Gastronomie et Palmarès -->
+    <div class="content-sections">
+        <!-- Section Gastronomie Algérienne -->
+        <section class="gastronomie">
+            <h2>Gastronomie Algérienne : Un Voyage de Saveurs</h2>
+            <div class="gastronomie-details">
+                <div class="gastronomie-item">
+                    <img src="Images/couscous.jpeg" alt="Couscous">
+                    <p><strong>Couscous :</strong> Le plat emblématique de l'Algérie, composé de semoule de blé dur, accompagné de légumes et de viande.</p>
+                </div>
+                <div class="gastronomie-item">
+                    <img src="Images/chorba.jpg" alt="Chorba">
+                    <p><strong>Chorba :</strong> Soupe épicée, souvent consommée pendant le Ramadan.</p>
+                </div>
+                <div class="gastronomie-item">
+                    <img src="Images/tajine.jpg" alt="Tajine">
+                    <p><strong>Tajine :</strong> Plat mijoté à base de légumes et épices.</p>
+                </div>
+                <div class="gastronomie-item">
+                    <img src="Images/gateaux.jpg" alt="Pâtisseries Orientales">
+                    <p><strong>Pâtisseries Orientales :</strong> Délices sucrés comme les baklavas, makrouds et griwech.</p>
+                </div>
             </div>
-            <div class="gastronomie-item">
-                <img src="Images/chorba.jpg" alt="Chorba">
-                <p><strong>Chorba :</strong> Soupe épicée, souvent consommée pendant le Ramadan.</p>
-            </div>
-            <div class="gastronomie-item">
-                <img src="Images/tajine.jpg" alt="Tajine">
-                <p><strong>Tajine :</strong> Plat mijoté à base de légumes et épices.</p>
-            </div>
-            <div class="gastronomie-item">
-                <img src="Images/gateaux.jpg" alt="Pâtisseries Orientales">
-                <p><strong>Pâtisseries Orientales :</strong> Délices sucrés comme les baklavas, makrouds et griwech.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section Banner avec Palmarès et Carrousel -->
-    <div class="section_trophies">
-        <h2>Palmarès de la Sélection Nationale d'Algérie</h2>
-        <div class="trophies">
-            <div class="trophy-item">
-                <h3>JO 2024</h3>
-                <p><strong>Médailles d'Or :</strong> 3</p>
-                <p><strong>Médailles d'Argent :</strong> 2</p>
-                <p><strong>Médailles de Bronze :</strong> 1</p>
+        <!-- Section Palmarès -->
+        <section class="section_trophies">
+            <h2>Palmarès de la Sélection Nationale d'Algérie</h2>
+            <div class="trophies">
+                <div class="trophy-item">
+                    <h3>JO 2024</h3>
+                    <p><strong>Médailles d'Or :</strong> 3</p>
+                    <p><strong>Médailles d'Argent :</strong> 2</p>
+                    <p><strong>Médailles de Bronze :</strong> 1</p>
+                </div>
+                <div class="trophy-item">
+                    <h3>Coupe d'Afrique des Nations</h3>
+                    <p><strong>Victoires :</strong> 2 (1990, 2019)</p>
+                    <p><strong>Finaliste :</strong> 1</p>
+                </div>
+                <div class="trophy-item">
+                    <h3>Coupe du Monde</h3>
+                    <p><strong>Meilleur Résultat :</strong> Huitièmes de finale (1982, 2014)</p>
+                    <p><strong>Participations :</strong> 4 (1982, 1986, 2010, 2014)</p>
+                </div>
             </div>
-            <div class="trophy-item">
-                <h3>Coupe d'Afrique des Nations</h3>
-                <p><strong>Victoires :</strong> 2 (1990, 2019)</p>
-                <p><strong>Finaliste :</strong> 1</p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.php" class="footer-link">Accueil</a></li>
+                    <li><a href="index.php?controller=pages&action=VISA" class="footer-link">Visa</a></li>
+                    <li><a href="index.php?controller=pages&action=CULTURE" class="footer-link">Culture de l'Algérie</a></li>
+                    <li><a href="index.php?controller=pages&action=PRESSE" class="footer-link">Presse</a></li>
+                </ul>
             </div>
-            <div class="trophy-item">
-                <h3>Coupe du Monde</h3>
-                <p><strong>Meilleur Résultat :</strong> Huitièmes de finale (1982, 2014)</p>
-                <p><strong>Participations :</strong> 4 (1982, 1986, 2010, 2014)</p>
+            <div class="footer-section">
+                <h4>Informations</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link">À propos de nous</a></li>
+                    <li><a href="contact.html" class="footer-link">Contact</a></li>
+                    <li><a href="terms.html" class="footer-link">Conditions d'utilisation</a></li>
+                    <li><a href="privacy.html" class="footer-link">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ressources</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html" class="footer-link">Services Consulaires</a></li>
+                    <li><a href="news.html" class="footer-link">Actualités</a></li>
+                    <li><a href="guides.html" class="footer-link">Guides et conseils</a></li>
+                    <li><a href="faq.html" class="footer-link">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Facebook</a></li>
+                    <li><a href="#" class="footer-link">Twitter</a></li>
+                    <li><a href="#" class="footer-link">Instagram</a></li>
+                    <li><a href="#" class="footer-link">LinkedIn</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+        <div class="footer-bottom">
+            © 2024 Consulat d'Algérie - Tous droits réservés
+        </div>
+    </footer>
 </body>
 </html>

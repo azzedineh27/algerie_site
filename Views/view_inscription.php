@@ -199,11 +199,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         footer {
-            padding: 20px 0;
+            padding: 40px 0;
             background-color: #006233;
             color: white;
             text-align: center;
-            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #D52B1E; /* Rouge du drapeau */
+        }
+
+        .footer-section {
+            text-align: center;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #D0D0D0;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #D0D0D0;
         }
     </style>
 </head>
@@ -278,8 +327,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 
     <footer>
-        © 2024 Consulat d'Algérie - Tous droits réservés
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.php" class="footer-link">Accueil</a></li>
+                    <li><a href="index.php?controller=pages&action=VISA" class="footer-link">Visa</a></li>
+                    <li><a href="index.php?controller=pages&action=CULTURE" class="footer-link">Culture de l'Algérie</a></li>
+                    <li><a href="index.php?controller=pages&action=PRESSE" class="footer-link">Presse</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Informations</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link">À propos de nous</a></li>
+                    <li><a href="contact.html" class="footer-link">Contact</a></li>
+                    <li><a href="terms.html" class="footer-link">Conditions d'utilisation</a></li>
+                    <li><a href="privacy.html" class="footer-link">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ressources</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html" class="footer-link">Services Consulaires</a></li>
+                    <li><a href="news.html" class="footer-link">Actualités</a></li>
+                    <li><a href="guides.html" class="footer-link">Guides et conseils</a></li>
+                    <li><a href="faq.html" class="footer-link">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Facebook</a></li>
+                    <li><a href="#" class="footer-link">Twitter</a></li>
+                    <li><a href="#" class="footer-link">Instagram</a></li>
+                    <li><a href="#" class="footer-link">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Consulat d'Algérie - Tous droits réservés
+        </div>
     </footer>
-
 </body>
 </html>
