@@ -38,10 +38,14 @@ $user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
             font-family: 'Open Sans', sans-serif;
             background-color: #f1f1f1;
             color: #333;
-            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
         }
 
+
         nav {
+            /* Garde la barre de navigation fixe en haut */
             position: fixed;
             top: 0;
             width: 100%;
@@ -135,6 +139,7 @@ $user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
 
         /* Bouton Admin */
         .admin-btn {
+            position : absolute; 
             margin-top: 20px;
             background-color: #006233;
             color: white;
@@ -144,21 +149,34 @@ $user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            top : 52%;
+            left: 42%;
+            text-decoration: none;
         }
 
         .admin-btn:hover {
             background-color: #D52B1E;
         }
 
-        footer {
-            padding: 40px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
+        .main-content {
+            /* Espace sous la barre de navigation pour le contenu principal */
+            flex: 1;
+            margin-top: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Open Sans', sans-serif;
+        }
+
+        footer {
+            /* Footer en bas de page */
+            background-color: #006233;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .footer-content {
@@ -229,20 +247,24 @@ $user_id = $_SESSION['user_id']; // Récupérer l'ID de l'utilisateur
         </div>
     </nav>
 
-    <!-- Espace Membre -->
-    <section class="espace-section">
-        <h2>Bienvenue dans votre Espace Membre, <?php echo $prenom . " " . $nom; ?></h2>
-        <p>Cet espace est réservé aux utilisateurs connectés. Vous pouvez gérer vos informations ici.</p>
+    <div class="main-content">
+            <!-- Espace Membre -->
+        <section class="espace-section">
+            <h2>Bienvenue dans votre Espace Membre, <?php echo $prenom . " " . $nom; ?></h2>
+            <p>Cet espace est réservé aux utilisateurs connectés. Vous pouvez gérer vos informations ici.</p>
 
-        <!-- Afficher un bouton supplémentaire pour l'admin si l'utilisateur a l'ID 3 -->
-        <?php if ($user_id == 3): ?>
-            <a href="index.php?controller=pages&action=ADMIN" class="admin-btn">Créer des comptes utilisateur</a>
-        <?php endif; ?>
+            <!-- Afficher un bouton supplémentaire pour l'admin si l'utilisateur a l'ID 3 -->
+            <?php if ($user_id == 3): ?>
+                <a href="index.php?controller=pages&action=ADMIN" class="admin-btn">Créer des comptes utilisateur</a>
+            <?php endif; ?>
 
-        <form action="deconnexion.php" method="POST">
-            <button type="submit" class="logout-btn">Se déconnecter</button>
-        </form>
-    </section>
+            <form action="deconnexion.php" method="POST">
+                <button type="submit" class="logout-btn">Se déconnecter</button>
+            </form>
+        </section>
+    </div>
+
+    
 
     <footer>
         <div class="footer-content">
