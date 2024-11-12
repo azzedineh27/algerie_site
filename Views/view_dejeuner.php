@@ -1,9 +1,9 @@
 <?php
 // Inclure le modèle pour interagir avec la base de données
-require_once 'Model_algerie.php';
+require_once 'C:\wamp64\www\algerie_site\Models\Model_algerie.php';
 
 // Initialiser le modèle
-$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'password'); // Remplacez 'password' par le mot de passe réel
+$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10'); // Remplacez 'password' par le mot de passe réel
 
 // Variables pour les messages
 $message = '';
@@ -111,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="message"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
 
-        <!-- Bouton de redirection vers l'accueil -->
         <a href="index.php" class="home-button">Retour à l'accueil</a>
     </div>
 </body>

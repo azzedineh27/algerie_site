@@ -381,28 +381,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="footer-section">
                 <h4>Informations</h4>
                 <ul class="footer-links">
-                    <li><a href="about.html" class="footer-link">À propos de nous</a></li>
-                    <li><a href="contact.html" class="footer-link">Contact</a></li>
-                    <li><a href="terms.html" class="footer-link">Conditions d'utilisation</a></li>
-                    <li><a href="privacy.html" class="footer-link">Politique de confidentialité</a></li>
+                    <li><a href="index.php?controller=footer&action=CONTACT" class="footer-link">Contact</a></li>
+                    <li><a href="index.php?controller=footer&action=RGPD" class="footer-link">Conditions d'utilisation des données</a></li>
+                    <li><a href="index.php?controller=footer&action=FAQ" class="footer-link">FAQ</a></li>
+                    <li><a href="index.php?controller=footer&action=AVIS" class="footer-link">Avis</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Ressources</h4>
                 <ul class="footer-links">
-                    <li><a href="services.html" class="footer-link">Services Consulaires</a></li>
-                    <li><a href="news.html" class="footer-link">Actualités</a></li>
-                    <li><a href="guides.html" class="footer-link">Guides et conseils</a></li>
-                    <li><a href="faq.html" class="footer-link">FAQ</a></li>
+                    <li><a href="index.php?controller=pages&action=LOTERIE" class="footer-link">Loterie</a></li>
+                    <li><a href="index.php?controller=footer&action=QUIZ " class="footer-link">Quiz</a></li>
+                    
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Suivez-nous</h4>
                 <ul class="footer-links">
-                    <li><a href="#" class="footer-link">Facebook</a></li>
-                    <li><a href="#" class="footer-link">Twitter</a></li>
-                    <li><a href="#" class="footer-link">Instagram</a></li>
-                    <li><a href="#" class="footer-link">LinkedIn</a></li>
+                    <li><a href="https://www.facebook.com/people/Consulat-G%C3%A9n%C3%A9ral-dAlg%C3%A9rie-%C3%A0-Paris/100090892071356/" class="footer-link">Facebook</a></li>
+                    <li><a href="https://x.com/cgalgerieparis" class="footer-link">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/explore/locations/244265384/consulat-algerie-paris/" class="footer-link">Instagram</a></li>
                 </ul>
             </div>
         </div>

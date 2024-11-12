@@ -108,7 +108,7 @@ if (isset($_SESSION['user_id'])) {
             text-align: center;
             backdrop-filter: blur(8px); /* Augmentation légère du flou */
             position: relative; /* Position relative pour ajuster la couche */
-            margin-top: 100px; /* Pour éviter que le formulaire soit caché par la navbar */
+            margin-top: 200px; /* Pour éviter que le formulaire soit caché par la navbar */
         }
 
         h2 {
@@ -193,6 +193,11 @@ if (isset($_SESSION['user_id'])) {
     <div class="container">
         <h2>Contactez-nous</h2>
         <form>
+            <div class="form-group">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" placeholder="Votre nom" pattern="[A-Za-zÀ-ÿ\s\-']+" title="Le nom ne peut contenir que des lettres, des espaces, des tirets et des apostrophes." required>
+            </div>
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Votre email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Veuillez entrer une adresse e-mail valide." required>

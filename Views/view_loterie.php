@@ -115,8 +115,31 @@ if (isset($_SESSION['user_id'])) {
 	        overflow: hidden;
 	        transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1); /* Smooth acceleration and deceleration */
 	        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5), inset 0px -5px 15px rgba(255, 255, 255, 0.2);
-	        filter: brightness(1); /* Starting brightness */
+	        filter: brightness(1); /* Starting brightness */   
+             filter: blur(5px); /* Effet de flou initial */
+            transition: filter 0.5s ease; /* Transition pour enlever le flou */
         }
+
+/* Message de bienvenue avec animation */
+#welcome-message {
+    position: absolute;
+    top: 30%;
+    color: #FFD700; /* Couleur or */
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 
+                 0 0 40px rgba(6, 158, 59, 0.8), 
+                 0 0 60px rgba(6, 158, 59, 0.8); /* Effet lumineux */
+    animation: pulse 2s infinite;
+    z-index: 20; /* Au-dessus de la roue */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
 
         .container.spin-active {
 	        animation: glow 1s infinite alternate; /* Pulsating glow effect */
@@ -204,6 +227,9 @@ if (isset($_SESSION['user_id'])) {
 	        outline: none;
 	        letter-spacing: 1px;
 	        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            top: 43%;
+            filter: blur(5px); /* Ajoute le flou initial */
+            transition: filter 0.5s ease; /* Transition pour enlever le flou */
         }
 
         #spin:active {
@@ -350,8 +376,13 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </nav>
 
-    <!-- Titre principal -->
-    <h1 class="big-title">Gagnez gratuitement un déjeuner algérien</h1>
+    <div id="welcome-message">
+        Entrez dans la roue pour gagner un déjeuner gratuit !
+    </div>
+    <button id="enter-wheel" class="contact-btn" style="position: absolute; top: 60%; z-index: 20;">
+        Entrer dans la roue
+    </button>
+
 
     <?php if ($utilisateurConnecte): ?>
         <!-- Flèche au-dessus de la roue -->
@@ -375,7 +406,7 @@ if (isset($_SESSION['user_id'])) {
         <div id="result" class="hidden"></div>   <!-- Affiche si tu as gagné ou perdu -->
 
     <!-- Ajouter le bouton pour la demande de Déjeuner gratuit -->
-    <a href="index.php?controller=pages&action=GRATUIT" id="visa-button">Page de Déjeuner Gratuit</a>
+    <a href="index.php?controller=pages&action=DEJEUNER" id="visa-button">Page de Déjeuner Gratuit</a>
     <?php else: ?>
         <!-- Message demandant de se connecter -->
         <div class="message">
@@ -445,7 +476,7 @@ if (isset($_SESSION['user_id'])) {
 
         // Si la case obtenue est "Visa", c'est un gain avec effet spécial
         if (selectedCase === 'Gagné') {
-            resultDiv.textContent = "Tu as gagné un visa algérien !";
+            resultDiv.textContent = "Tu as gagné un déjeuner algérien !";
             resultDiv.classList.add('big-text'); // Animation spéciale pour le gain
 
             // Afficher le bouton pour la page de visa gratuit
@@ -459,6 +490,18 @@ if (isset($_SESSION['user_id'])) {
 
     // Assigner la fonction de rotation au bouton Spin
     spinButton.addEventListener('click', spinWheel);
+
+    const enterButton = document.getElementById('enter-wheel');
+    const welcomeMessage = document.getElementById('welcome-message');
+
+    enterButton.addEventListener('click', () => {
+        wheel.style.filter = 'none'; // Enlève le flou de la roue
+        spinButton.style.filter = 'none'; // Enlève le flou du bouton de rotation
+        welcomeMessage.style.display = 'none'; // Cache le message de bienvenue
+        enterButton.style.display = 'none'; // Cache le bouton d'entrée
+    });
+
+
     </script>
 
 </body>
