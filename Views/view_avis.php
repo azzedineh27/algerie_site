@@ -56,6 +56,7 @@ $moyenne = $model->calculerMoyenneNotes();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback - Consulat d'Algérie</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
         /* Styles de base */
         * {
@@ -82,10 +83,49 @@ $moyenne = $model->calculerMoyenneNotes();
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 10;
         }
+
         .logo {
             font-family: 'Roboto Slab', serif;
             font-size: 2em;
+            color: #006233; /* Vert du drapeau */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-right: auto;
+            padding-left: 50px;
+        }
+
+        .nav-links a {
+            font-size: 1.1em;
             color: #006233;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #D52B1E; /* Rouge du drapeau */
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-btn {
+            border: 2px solid #006233;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #006233;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #D52B1E;
+            color: white;
         }
         .container {
             max-width: 800px;

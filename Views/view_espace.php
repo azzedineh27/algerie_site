@@ -319,6 +319,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changer_mdp'])) {
                 <button type="submit" name="changer_mdp">Changer le mot de passe</button>
             </form>
 
+            <!-- Bouton spécial pour l'ID 3 -->
+            <?php if ($user_id == 3): ?>
+                <form action="index.php" method="GET">
+                    <input type="hidden" name="controller" value="pages">
+                    <input type="hidden" name="action" value="ADMIN">
+                    <button type="submit" class="logout-btn" style="margin-top: 10px;">Créer comptes</button>
+                </form>
+            <?php endif; ?>
+
             <!-- Bouton de déconnexion -->
             <form action="deconnexion.php" method="POST">
                 <button type="submit" class="logout-btn">Se déconnecter</button>

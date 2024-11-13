@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dateValiditeObj = new DateTime($_SESSION['visa_data']['date_validite']);
             $interval = $dateCreationObj->diff($dateValiditeObj);
 
-            if ($interval->y != 10 || $interval->m != 0 || $interval->d != 0) {
-                $message = "<div class='error-message'>Le délai entre la création et la validité du passeport doit être de 10 ans.</div>";
-            } else {
+            $dateLimite = new DateTime('2024-11-14');
+
+            
                 // Vérifier le fichier téléchargé
                 if (isset($_FILES['fichier_passeport'])) {
                     $fichierTmp = $_FILES['fichier_passeport']['tmp_name'];
@@ -76,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $message = "<div class='error-message'>Veuillez télécharger un fichier de passeport valide.</div>";
                 }
-            }
         } elseif (isset($_POST['paymentFormSubmit'])) {
         // Récupérer les données de session du formulaire de visa
         if (isset($_SESSION['visa_data'])) {
@@ -97,20 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $expiration_date = $_POST['expiration_date'];
         $currentDate = new DateTime('now');
         $expirationDate = DateTime::createFromFormat('Y-m', $expiration_date);
-
-        if (!preg_match('/^\d{16}$/', $card_number)) {
-            $errors['card_number'] = "Le numéro de carte bancaire doit comporter 16 chiffres.";
-            $showPaymentForm = true;
-        }
-        if (!preg_match('/^\d{3}$/', $cvv)) {
-            $errors['cvv'] = "Le code CVV doit comporter 3 chiffres.";
-            $showPaymentForm = true;
-        }
-        if ($expirationDate <= $currentDate) {
-            $errors['expiration_date'] = "La date d'expiration de la carte doit être postérieure à la date actuelle.";
-            $showPaymentForm = true;
-        }
-
+        
         // Si pas d'erreurs de paiement, créer la demande de visa
         if (empty($errors)) {
             $nationalite_id = $model->getNationaliteId($nationalite);
@@ -591,18 +577,37 @@ const nationalitesInterdites = ['Israelienne', 'Taiwanaise'];
 document.addEventListener("DOMContentLoaded", function () {
     const visaForm = document.getElementById("visaForm");
 
-    // Validation du délai de 10 ans entre date de création et de validité
+    // Date limite de référence pour la création et la validité du passeport
+    const dateLimite = new Date('2024-11-14');
+
+    // Validation du formulaire de demande de visa
     visaForm.addEventListener("submit", function (event) {
         const dateCreation = new Date(visaForm.datecreation.value);
         const dateValidite = new Date(visaForm.datevalidite.value);
-        const tenYearsLater = new Date(dateCreation.setFullYear(dateCreation.getFullYear() + 10));
+        const tenYearsLater = new Date(dateCreation);
+        tenYearsLater.setFullYear(dateCreation.getFullYear() + 10);
 
+        
+
+        // Vérification que la date de création n'est pas après le 14 novembre 2024
+        if (dateCreation > dateLimite) {
+            alert("La date de création ne peut pas être postérieure au 14 novembre 2024.");
+            event.preventDefault();
+            return;
+        }
+
+        // Vérification que la date de validité n'est pas avant le 14 novembre 2024
+        if (dateValidite < dateLimite) {
+            alert("La date de validité ne peut pas être antérieure au 14 novembre 2024.");
+            event.preventDefault();
+            return;
+        }
+        // Vérification du délai de 10 ans entre date de création et de validité
         if (tenYearsLater.toISOString().split("T")[0] !== visaForm.datevalidite.value) {
             alert("Le délai entre la création et la validité du passeport doit être de 10 ans.");
             event.preventDefault();
             return;
         }
-
         // Vérification de la nationalité interdite
         const nationalitesInterdites = ['Israelienne', 'Taiwanaise'];
         const nationalite = visaForm.nationalite.value.trim();
@@ -621,9 +626,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-
-
 
         // Validation du formulaire de paiement
         paymentForm.addEventListener("submit", function (event) {
