@@ -392,4 +392,3 @@ class Model_algerie {
         }
     }
 }
-?>

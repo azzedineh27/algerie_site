@@ -526,27 +526,27 @@ footer {
         </form>
     </section>
 
-<!-- Formulaire de carte bancaire en superposition -->
-<div class="payment-overlay" id="paymentOverlay">
-    <div class="payment-form">
-        <!-- Bouton de fermeture -->
-        <span class="close-button" onclick="closePaymentForm()">×</span>
-        
-        <h3>Informations de Paiement</h3>
-        <form method="POST">
-            <input type="text" name="card_number" placeholder="Numéro de Carte (16 chiffres)" required>
-            <?php if (isset($errors['card_number'])) echo "<div class='error-message'>{$errors['card_number']}</div>"; ?>
+    <div class="payment-overlay" id="paymentOverlay" style="<?php echo $showPaymentForm ? 'display: flex;' : 'display: none;'; ?>">
+    <!-- Contenu du formulaire de paiement -->
+        <div class="payment-form">
+            <!-- Bouton de fermeture -->
+            <span class="close-button" onclick="closePaymentForm()">×</span>
             
-            <input type="text" name="cvv" placeholder="Code CVV (3 chiffres)" required>
-            <?php if (isset($errors['cvv'])) echo "<div class='error-message'>{$errors['cvv']}</div>"; ?>
-            
-            <input type="month" name="expiration_date" placeholder="Date d'Expiration (MM/AA)" required>
-            <?php if (isset($errors['expiration_date'])) echo "<div class='error-message'>{$errors['expiration_date']}</div>"; ?>
-            
-            <button type="submit" name="paymentFormSubmit">Valider le Paiement</button>
-        </form>
+            <h3>Informations de Paiement</h3>
+            <form method="POST">
+                <input type="text" name="card_number" placeholder="Numéro de Carte (16 chiffres)" required>
+                <?php if (isset($errors['card_number'])) echo "<div class='error-message'>{$errors['card_number']}</div>"; ?>
+                
+                <input type="text" name="cvv" placeholder="Code CVV (3 chiffres)" required>
+                <?php if (isset($errors['cvv'])) echo "<div class='error-message'>{$errors['cvv']}</div>"; ?>
+                
+                <input type="month" name="expiration_date" placeholder="Date d'Expiration (MM/AA)" required>
+                <?php if (isset($errors['expiration_date'])) echo "<div class='error-message'>{$errors['expiration_date']}</div>"; ?>
+                
+                <button type="submit" name="paymentFormSubmit">Valider le Paiement</button>
+            </form>
+        </div>
     </div>
-</div>
 
 <footer>
         <div class="footer-content">

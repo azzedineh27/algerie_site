@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
 // Initialiser les variables pour les résultats
 $score = 0;
 $showResult = false;
+$incorrect_answers = []; // Tableau pour stocker les réponses incorrectes
 
 // Traitement du formulaire lorsque le quiz est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,12 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'question1' => 'Abdelmajid Tebboune', // Président actuel
         'question2' => 'Dinar', // Monnaie
         'question3' => 'Alger', // Capitale
-        'question4' => '2' // Nombre de CAN remportées
+        'question4' => '2', // Nombre de CAN remportées
+        'question5' => 'Allemagne' // Nombre de CAN remportées
     ];    
 
     foreach ($answers_easy as $question => $correct_answer) {
         if (isset($_POST[$question]) && strtolower(trim($_POST[$question])) == strtolower($correct_answer)) {
-            $score += 4; // Chaque question facile vaut 4 points
+            $score += 3; // Chaque question facile vaut 3 points pour un total de 15 points
+        } else {
+            $incorrect_answers[$question] = $correct_answer; // Stocker la question incorrecte avec la réponse correcte
         }
     }
 
@@ -42,15 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     for ($i = 1; $i <= 5; $i++) {
         $person = 'person' . $i;
         if (isset($_POST[$person]) && in_array(strtolower(trim($_POST[$person])), $correct_people)) {
-            $recognized_people++;
+            $score += 1; // Chaque bonne réponse dans cette section vaut 1 point pour un total de 5 points
+        } else {
+            $incorrect_answers[$person] = 'Personne célèbre ! Dommage ! '; // Message pour personne non reconnue
         }
     }
-    
-    $score += $recognized_people * 2; // Chaque bonne réponse dans cette section vaut 2 points
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -305,6 +307,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <p>4. Combien de CAN a remporté l'Algérie? (Un chiffre)</p>
                 <input type="text" name="question4" required>
+
+                <p>5. Qui a éliminé l'Algérie en 2014 ? (Un pays, un mot)</p>
+                <input type="text" name="question5" required>
             </div>
 
             <div class="quiz-section">
@@ -341,6 +346,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php
         if ($showResult) {
             echo "<div class='result'>Votre score : $score / 20</div>";
+            
+            // Afficher les réponses incorrectes si elles existent
+            if (!empty($incorrect_answers)) {
+                echo "<div class='result'>Réponses incorrectes :</div><ul>";
+                foreach ($incorrect_answers as $question => $correct_answer) {
+                    echo "<li>Question $question : La bonne réponse est \"$correct_answer\".</li>";
+                }
+                echo "</ul>";
+            }
         }
         ?>
     </div>

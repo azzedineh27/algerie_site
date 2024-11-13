@@ -1,32 +1,38 @@
-2024-11-13 19:36:24 - Récupération de toutes les nationalités
-2024-11-13 19:37:12 - Récupération de toutes les nationalités
-2024-11-13 19:41:05 - Récupération de toutes les nationalités
-2024-11-13 19:41:05 - Vérification d'utilisateur pour doublons avec nom: Nana, prénom: Gregory, tel: 0000000000, email: admin_nana@gmail.com
-2024-11-13 19:45:43 - Récupération de toutes les nationalités
-2024-11-13 19:45:43 - Vérification d'utilisateur pour doublons avec nom: Nana, prénom: Gregory, tel: 0000000000, email: admin_nana@gmail.com
-2024-11-13 19:49:07 - Récupération de toutes les nationalités
-2024-11-13 19:49:07 - Vérification d'utilisateur pour doublons avec nom: Nana, prénom: Gregory, tel: 0000000000, email: admin_nana@gmail.com
-2024-11-13 19:51:21 - Authentification réussie pour l'utilisateur : admin_nana@gmail.com
-2024-11-13 19:51:24 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:51:24 - Récupération de toutes les nationalités
-2024-11-13 19:51:36 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:51:36 - Récupération de toutes les nationalités
-2024-11-13 19:51:42 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:51:42 - Récupération de toutes les nationalités
-2024-11-13 19:51:47 - Tous les utilisateurs non algériens ont été récupérés avec succès.
-2024-11-13 19:51:48 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:51:48 - Récupération de toutes les nationalités
-2024-11-13 19:51:49 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:51:49 - Récupération de toutes les nationalités
-2024-11-13 19:52:02 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:52:02 - Récupération de toutes les nationalités
-2024-11-13 19:52:44 - Tous les utilisateurs non algériens ont été récupérés avec succès.
-2024-11-13 19:52:48 - Tous les utilisateurs non algériens ont été récupérés avec succès.
-2024-11-13 19:53:18 - Tous les utilisateurs non algériens ont été récupérés avec succès.
-2024-11-13 19:53:22 - Vérification de demande de visa pour l'utilisateur ID : 3
-2024-11-13 19:53:22 - Récupération de toutes les nationalités
-2024-11-13 19:53:28 - Récupération de toutes les nationalités
-2024-11-13 19:53:41 - Récupération de toutes les nationalités
-2024-11-13 19:54:12 - Authentification réussie pour l'utilisateur : admin_nana@gmail.com
-2024-11-13 19:54:18 - Tous les feedbacks ont été récupérés.
-2024-11-13 19:54:18 - Moyenne des notes calculée : 8.5000
+
+2024-11-13 20:06:02 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:06:02 - Récupération de toutes les nationalités
+2024-11-13 20:10:37 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:10:37 - Récupération de toutes les nationalités
+2024-11-13 20:11:12 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:11:12 - Récupération de toutes les nationalités
+2024-11-13 20:12:35 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:12:35 - Récupération de toutes les nationalités
+2024-11-13 20:13:06 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:13:06 - Récupération de toutes les nationalités
+2024-11-13 20:13:28 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:13:28 - Récupération de toutes les nationalités
+2024-11-13 20:13:29 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:13:29 - Récupération de toutes les nationalités
+2024-11-13 20:13:50 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:13:50 - Récupération de toutes les nationalités
+2024-11-13 20:15:20 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:15:20 - Récupération de toutes les nationalités
+2024-11-13 20:15:32 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 20:15:32 - Récupération de toutes les nationalités
+2024-11-13 20:15:32 - Récupération de l'ID pour la nationalité : Algérienne
+2024-11-13 20:15:32 - Demande de visa créée pour l'utilisateur ID : 3
+2024-11-13 22:20:31 - Authentification réussie pour l'utilisateur : admin_nana@gmail.com
+2024-11-13 22:20:37 - Récupération de toutes les nationalités
+2024-11-13 22:21:06 - Tous les utilisateurs non algériens ont été récupérés avec succès.
+2024-11-13 22:21:15 - Tous les utilisateurs non algériens ont été récupérés avec succès.
+2024-11-13 22:22:04 - Tous les feedbacks ont été récupérés.
+2024-11-13 22:22:04 - Moyenne des notes calculée : 8.5000
+2024-11-13 22:22:36 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 22:22:36 - Récupération de toutes les nationalités
+2024-11-13 22:24:47 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 22:24:47 - Récupération de toutes les nationalités
+2024-11-13 22:25:07 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-13 22:25:07 - Récupération de toutes les nationalités
+2024-11-13 22:25:07 - Récupération de l'ID pour la nationalité : Allemande
+2024-11-13 22:25:07 - Demande de visa créée pour l'utilisateur ID : 3
+2024-11-13 22:25:41 - Vérification de demande de visa pour l'utilisateur ID : 3
