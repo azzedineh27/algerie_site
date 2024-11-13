@@ -203,6 +203,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 1.3em;
             color: #006233;
         }
+
+        .banner {
+            width: 100%;
+            min-height: 100vh;
+            text-align: center;
+            overflow: visible;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .banner .message {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #25283B;
+            z-index: 2;
+            text-align: center;
+            font-family: 'ICA Rubrik', sans-serif;
+        }
+        @media (max-width: 768px) {
+            .banner .message {
+                top: 15%;
+                font-size: 40px;
+            }
+        }
+
+        .banner .slider {
+            position: relative;
+            width: 120px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: autoRun 20s linear infinite;
+            z-index: 10;
+        }
+        @keyframes autoRun {
+            from {
+                transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
+            }
+            to {
+                transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
+            }
+        }
+
+        .banner .slider .item {
+            position: absolute;
+            inset: 0 0 0 0;
+            transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(300px);
+        }
+        .banner .slider .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -256,6 +315,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="person3" placeholder="Personne 3" required>
                 <input type="text" name="person4" placeholder="Personne 4" required>
                 <input type="text" name="person5" placeholder="Personne 5" required>
+            </div>
+
+            <div class="banner">
+                <div class="message">
+                    Découvrez les stars de l'équipe de foot d'Algérie !
+                </div>
+                <div class="slider" style="--quantity: 10">
+                    <div class="item" style="--position: 1"><img src="Images\azz.jpg" alt=""></div>
+                    <div class="item" style="--position: 2"><img src="Images\belmadi.jpg" alt=""></div>
+                    <div class="item" style="--position: 3"><img src="Images\bentaleb.webp" alt=""></div>
+                    <div class="item" style="--position: 4"><img src="Images\bougherra.jpg" alt=""></div>
+                    <div class="item" style="--position: 5"><img src="Images\brahimi.jpg" alt=""></div>
+                    <div class="item" style="--position: 6"><img src="Images\haliche.jpeg" alt=""></div>
+                    <div class="item" style="--position: 7"><img src="Images\madjer.jpeg" alt=""></div>
+                    <div class="item" style="--position: 8"><img src="Images\mahrez.jpg" alt=""></div>
+                    <div class="item" style="--position: 9"><img src="Images\slimani.jpg" alt=""></div>
+                    <div class="item" style="--position: 10"><img src="Images\ziani.jpeg" alt=""></div>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">Soumettre le Quiz</button>

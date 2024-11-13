@@ -1,13 +1,15 @@
-<?php 
-// Inclure le modèle
-require_once 'Models/Model_algerie.php';
-// Inclure FPDF
-require 'vendor/autoload.php';
-
-// Démarrer la session si pas déjà fait
+<?php
+// Démarrer la session si elle n'est pas déjà active
 if (session_id() === '') {
     session_start();
 }
+
+// Inclure le modèle de connexion à la base de données et FPDF
+require_once 'Models/Model_algerie.php';
+require 'vendor/autoload.php';
+
+// Connexion à la base de données
+$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
 
 // Vérifier si l'utilisateur est connecté
 $prenom = '';
@@ -17,13 +19,19 @@ if (isset($_SESSION['user_id'])) {
     $prenom = $_SESSION['prenom'];
     $user_id = $_SESSION['user_id'];
     $lien_account = 'index.php?controller=connexion&action=ESPACE';
+
+    // Vérifier si une demande de visa est déjà en cours
+    if ($model->demandeVisaExiste($user_id)) {
+        // Rediriger l'utilisateur vers une page indiquant une demande de visa en cours
+        header("Location: index.php?controller=pages&action=VISA_EXISTANT");
+        exit;
+    }
 } else {
+    // Si l'utilisateur n'est pas connecté, le rediriger vers une page d'erreur ou de connexion
     header("Location: index.php?controller=connexion&action=ERREUR_VISA");
     exit;
 }
 
-// Connexion à la base de données
-$model = new Model_algerie('localhost', 'consulat_algerie', 'root', 'Ultime10');
 $nationalites = $model->getNationalites();
 $message = "";
 $showPaymentForm = false; // Indique si le formulaire de carte bancaire doit être affiché

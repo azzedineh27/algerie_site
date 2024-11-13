@@ -25,7 +25,15 @@ class Controller_pages extends Controller {
         return $this->render('view_dejeuner');
     }
 
+    public function action_ERREUR_TIRAGE() {
+        // Code pour afficher la vue LOTERIE
+        return $this->render('view_erreur_tirage');
+    }
 
+    public function action_VISA_EXISTANT() {
+        // Code pour afficher la vue LOTERIE
+        return $this->render('view_visa_existant');
+    }
 
     public function action_PRESSE() {
         // Code pour afficher la vue PRESSE

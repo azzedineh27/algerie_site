@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commentaire']) && iss
 
     // Vérifier que la note est entre 1 et 10
     if ($note < 1 || $note > 10) {
-        $message = "<div class='error-message'>La note doit être comprise entre 1 et 10.</div>";
+        $message = "<div class='error-message'>La note doit être comprise entre 0 et 10.</div>";
     } else {
         // Insérer l'avis et la note dans la base de données
         $success = $model->ajouterFeedback($user_id, $commentaire, $note);
@@ -211,9 +211,20 @@ $moyenne = $model->calculerMoyenneNotes();
     <!-- Navbar -->
     <nav>
         <div class="logo">Consulat d'Algérie</div>
+        <div class="nav-links">
+            <a href="index.php">Accueil</a>
+            <a href="index.php?controller=pages&action=VISA">Visa</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
+            <a href="index.php?controller=pages&action=PRESSE">Presse</a>
+            <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
+            <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
+        </div>
+        <div class="action-btns">
+            <a href="index.php?controller=footer&action=CONTACT" class="contact-btn">Contact</a>
+            <a href="index.php?controller=connexion&action=CONNECT" class="contact-btn" title="Espace Membre"><span class="material-symbols-outlined">account_circle</span></a>
+        </div>
     </nav>
-
-    <!-- Feedback Section -->
+    <!-- Section des avis-->
     <div class="container">
         <h1>Donnez votre avis</h1>
         
@@ -224,7 +235,7 @@ $moyenne = $model->calculerMoyenneNotes();
         <form method="POST">
             <div class="form-group">
                 <label for="note">Note (sur 10) :</label>
-                <input type="number" id="note" name="note" min="1" max="10" required>
+                <input type="number" id="note" name="note" min="0" max="10" required>
             </div>
             <div class="form-group">
                 <label for="commentaire">Commentaire :</label>

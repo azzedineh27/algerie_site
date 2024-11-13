@@ -4,9 +4,16 @@ if (session_id() === '') {
     session_start();
 }
 
-// Vérifier si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté et si son ID est égal à 3
+if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != 3) {
+    // Rediriger vers une page d'erreur si l'utilisateur n'est pas l'admin (ID 3)
+    header('Location: index.php?controller=pages&action=ERREUR_TIRAGE');
+    exit;
+}
+
+// Récupérer les informations de l'utilisateur connecté
 $prenom = '';
-$lien_account = 'index.php?controller=connexion&action=CONNECT'; // Par défaut, lien vers la page de connexion
+$lien_account = 'index.php?controller=connexion&action=CONNECT';
 
 if (isset($_SESSION['user_id'])) {
     $prenom = $_SESSION['prenom'];

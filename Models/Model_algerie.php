@@ -200,5 +200,37 @@ class Model_algerie {
 
         return $stmt->rowCount() > 0; // Retourne vrai si une ligne a été mise à jour
     }
+
+    public function verifierUtilisateur($user_id, $nom, $prenom, $tel, $email) {
+        $sql = "SELECT * FROM users WHERE id = :user_id AND nom = :nom AND prenom = :prenom AND tel = :tel AND email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':user_id' => $user_id,
+            ':nom' => $nom,
+            ':prenom' => $prenom,
+            ':tel' => $tel,
+            ':email' => $email
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+    }
+    
+    public function changerMotDePasse($user_id, $nouveauMdp) {
+        $sql = "UPDATE users SET mot_de_passe = :mot_de_passe WHERE id = :user_id";
+        $stmt = $this->pdo->prepare($sql);
+        $hashed_password = password_hash($nouveauMdp, PASSWORD_DEFAULT);
+        $stmt->execute([
+            ':mot_de_passe' => $hashed_password,
+            ':user_id' => $user_id
+        ]);
+    }
+
+    public function getUtilisateurById($user_id) {
+        $sql = "SELECT * FROM users WHERE id = :user_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':user_id' => $user_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    
 }
 ?>

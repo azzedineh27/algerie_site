@@ -5,7 +5,7 @@ require_once 'Models/Model_algerie.php';
 // Démarrer la session pour gérer les connexions
 if (session_id() === '') {
     session_start();
-  }
+}
 
 // Vérifier si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -129,6 +129,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #006233;
             margin-bottom: 30px;
         }
+
+        /* Ajout du style pour le message d'erreur */
+        .error-message {
+            background-color: #ffdddd;
+            color: #D52B1E;
+            border: 1px solid #D52B1E;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
 
         form {
             max-width: 800px;
@@ -257,6 +270,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Formulaire de Connexion -->
     <section class="login-form-section">
         <h2>Connexion à votre compte</h2>
+
+        <?php if (!empty($erreur)): ?>
+            <div class="error-message"><?php echo htmlspecialchars($erreur); ?></div>
+        <?php endif; ?>
 
         <form method="POST">
             <div>

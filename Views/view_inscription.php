@@ -192,6 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-decoration: none;
         }
 
         .signup-form-submit:hover {

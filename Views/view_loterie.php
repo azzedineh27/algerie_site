@@ -24,114 +24,213 @@ if (isset($_SESSION['user_id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
-        *{
-	        box-sizing: border-box;
-        }
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body{
-	        margin: 0;
-	        padding: 0;
-	        background-color: #1d2b36;
-	        display: flex;
-	        flex-direction: column;
-	        align-items: center;
-	        justify-content: center;
-	        height: 100vh;
-	        font-family: 'Arial', sans-serif;
-        }
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #1d2b36;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    scroll-behavior: smooth;
+}
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
 
-        .logo {
-            font-family: 'Roboto Slab', serif;
-            font-size: 2em;
-            color: #006233; /* Vert du drapeau */
-        }
+.logo {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2em;
+    color: #006233;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            margin-right: auto;
-            padding-left: 50px;
-        }
+.nav-links {
+    display: flex;
+    gap: 30px;
+    margin-right: auto;
+    padding-left: 50px;
+}
 
-        .nav-links a {
-            font-size: 1.1em;
-            color: #006233;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+.nav-links a {
+    font-size: 1.1em;
+    color: #006233;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-        .nav-links a:hover {
-            color: #D52B1E; /* Rouge du drapeau */
-        }
+.nav-links a:hover {
+    color: #D52B1E;
+}
 
-        .action-btns {
-            display: flex;
-            gap: 20px;
-        }
+.action-btns {
+    display: flex;
+    gap: 20px;
+}
 
-        .contact-btn {
-            border: 2px solid #006233;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            color: #006233;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+.contact-btn {
+    border: 2px solid #006233;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #006233;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .contact-btn:hover {
-            background-color: #D52B1E;
-            color: white;
-        }
+.contact-btn:hover {
+    background-color: #D52B1E;
+    color: white;
+}
 
-        .big-title {
-            font-size: 50px;
-            color: #FFD700; /* Or pour attirer l'attention */
-            margin-bottom: 20px;
-            text-align: center;
-        }
+.big-title {
+    font-size: 50px;
+    color: #FFD700;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        /* Style de la roue */
-        .container{
-	        width: 500px;
-	        height: 500px;
-	        background-color: #ccc;
-	        border-radius: 50%;
-	        border: 15px solid #dde;
-	        position: relative;
-	        overflow: hidden;
-	        transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1); /* Smooth acceleration and deceleration */
-	        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5), inset 0px -5px 15px rgba(255, 255, 255, 0.2);
-	        filter: brightness(1); /* Starting brightness */   
-             filter: blur(5px); /* Effet de flou initial */
-            transition: filter 0.5s ease; /* Transition pour enlever le flou */
-        }
+.container {
+    width: 500px;
+    height: 500px;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 15px solid #dde;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5), inset 0px -5px 15px rgba(255, 255, 255, 0.2);
+}
 
-/* Message de bienvenue avec animation */
+.container div {
+    height: 50%;
+    width: 200px;
+    position: absolute;
+    clip-path: polygon(100% 0, 50% 100%, 0 0);
+    transform: translateX(-50%);
+    transform-origin: bottom;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    left: 135px;
+}
+
+.container .one, .container .three, .container .five, .container .seven {
+    background-color: #006233;
+}
+
+.container .two, .container .four, .container .six, .container .eight {
+    background-color: #ffffff;
+    color: #333;
+}
+
+.container .two, .container .four {
+    background-color: #d52b1e;
+    color: #fff;
+    border: 5px solid #fff;
+}
+
+.container .one { left: 50%; }
+.container .two { transform: rotate(45deg); }
+.container .three { transform: rotate(90deg); }
+.container .four { transform: rotate(135deg); }
+.container .five { transform: rotate(180deg); }
+.container .six { transform: rotate(225deg); }
+.container .seven { transform: rotate(270deg); }
+.container .eight { transform: rotate(315deg); }
+
+#spin {
+    position: absolute;
+    z-index: 10;
+    background-color: #ffffff;
+    text-transform: uppercase;
+    border: 8px solid #006233;
+    font-weight: bold;
+    font-size: 20px;
+    color: #006233;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    letter-spacing: 1px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    top: 43%;
+}
+
+#spin:active {
+    transform: scale(0.95);
+}
+
+#arrow {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 50px solid red;
+    position: absolute;
+    top: calc(50% - 300px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.message {
+    background-color: #D52B1E;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.connexion-btn {
+    padding: 15px 30px;
+    background-color: #006233;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.connexion-btn:hover {
+    background-color: #D52B1E;
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
+}
+
 #welcome-message {
     position: absolute;
     top: 30%;
-    color: #FFD700; /* Couleur or */
+    color: #FFD700;
     font-size: 50px;
     text-align: center;
-    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 
-                 0 0 40px rgba(6, 158, 59, 0.8), 
-                 0 0 60px rgba(6, 158, 59, 0.8); /* Effet lumineux */
+    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 0 0 40px rgba(6, 158, 59, 0.8), 0 0 60px rgba(6, 158, 59, 0.8);
     animation: pulse 2s infinite;
-    z-index: 20; /* Au-dessus de la roue */
+    z-index: 20;
 }
 
 @keyframes pulse {
@@ -140,200 +239,19 @@ if (isset($_SESSION['user_id'])) {
     100% { transform: scale(1); }
 }
 
-
-        .container.spin-active {
-	        animation: glow 1s infinite alternate; /* Pulsating glow effect */
-        }
-
-        @keyframes glow {
-	        from {
-	            filter: brightness(1);
-	        }
-	        to {
-	            filter: brightness(1.2);
-	        }
-        }
-
-        .container div{
-	        height: 50%;
-	        width: 200px;
-	        position: absolute;
-	        clip-path: polygon(100% 0, 50% 100%, 0 0);
-	        transform: translateX(-50%);
-	        transform-origin: bottom;
-	        text-align: center;
-	        display: flex;
-	        align-items: center;
-	        justify-content: center;
-	        font-size: 20px;
-	        font-weight: bold;
-	        color: #fff;
-	        left: 135px;
-        }
-
-        .container .one, .container .three, .container .five, .container .seven {
-	        background-color: #006233; /* Vert Algérie */
-        }
-
-        .container .two, .container .four, .container .six, .container .eight {
-	        background-color: #ffffff; /* Blanc Algérie */
-	        color: #333;
-        }
-
-        .container .two, .container .four {
-	        background-color: #d52b1e; /* Rouge Algerie pour le Visa */
-	        color: #fff;
-	        border: 5px solid #fff;
-        }
-
-        .container .one{
-	        left: 50%;
-        }
-        .container .two{
-	        transform: rotate(45deg);
-        }
-        .container .three{
-	        transform: rotate(90deg);
-        }
-        .container .four{
-	        transform: rotate(135deg);
-        }
-        .container .five{
-	        transform: rotate(180deg);
-        }
-        .container .six{
-	        transform: rotate(225deg);
-        }
-        .container .seven{
-	        transform: rotate(270deg);
-        }
-        .container .eight{
-	        transform: rotate(315deg);
-        }
-
-        #spin{
-	        position: absolute;
-	        z-index: 10;
-	        background-color: #ffffff;
-	        text-transform: uppercase;
-	        border: 8px solid #006233; /* Bordure verte */
-	        font-weight: bold;
-	        font-size: 20px;
-	        color: #006233;
-	        width: 100px;
-	        height: 100px;
-	        border-radius: 50%;
-	        cursor: pointer;
-	        outline: none;
-	        letter-spacing: 1px;
-	        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-            top: 43%;
-            filter: blur(5px); /* Ajoute le flou initial */
-            transition: filter 0.5s ease; /* Transition pour enlever le flou */
-        }
-
-        #spin:active {
-	        transform: scale(0.95); /* Slight scale on click */
-        }
-
-
-        #arrow {
-            width: 0; 
-            height: 0; 
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-top: 50px solid red; /* Couleur de la flèche */
-            position: absolute;
-            top: calc(50% - 300px); /* Position au-dessus de la roue */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
-
-        .message {
-            background-color: #D52B1E; /* Rouge du drapeau algérien */
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .connexion-btn {
-            padding: 15px 30px;
-            background-color: #006233; /* Vert algérien */
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre subtile */
-        }
-
-        .connexion-btn:hover {
-            background-color: #D52B1E; /* Rouge algérien au survol */
-            box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4); /* Augmentation de l'ombre au survol */
-        }
-
-
-        #obtained {
-	        margin-top: 20px;
-	        font-size: 24px;
-	        color: #fff;
-	        font-weight: bold;
-	        text-align: center;
-	        transition: opacity 1s ease;
-        }
-
-        #result{
-	        margin-top: 10px;
-	        font-size: 24px;
-	        color: #fff;
-	        font-weight: bold;
-	        text-align: center;
-	        transition: opacity 1s ease;
-        }
-
-        #result.hidden, #obtained.hidden{
-	        opacity: 0;
-        }
-
-        #result.visible, #obtained.visible{
-	        opacity: 1;
-        }
-
-        /* Ajoutez cette section à votre style CSS existant */
-
-/* Classe pour faire apparaître le message en grand et avec une animation incroyable */
 .big-text {
-    font-size: 50px; /* Taille énorme pour un impact */
-    color: #FFD700; /* Couleur or pour attirer l'attention */
-    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 
-                 0 0 40px rgba(6, 158, 59, 0.8), 
-                 0 0 60px rgba(6, 158, 59, 0.8); /* Effet lumineux */
+    font-size: 50px;
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(6, 158, 59, 0.8), 0 0 40px rgba(6, 158, 59, 0.8), 0 0 60px rgba(6, 158, 59, 0.8);
     transition: all 1s ease-in-out;
-    animation: pulse 2s infinite; /* Animation de pulsation infinie */
+    animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2); /* Grossit légèrement */
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Style du bouton "Page de Visa Gratuit" */
 #visa-button {
-    display: none; /* Initialement caché */
+    display: none;
     margin-top: 20px;
     padding: 15px 30px;
-    background-color: #006233; /* Vert algérien */
+    background-color: #006233;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -341,13 +259,25 @@ if (isset($_SESSION['user_id'])) {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 #visa-button:hover {
-    background-color: #D52B1E; /* Rouge algérien au survol */
-    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4); /* Augmentation de l'ombre au survol */
+    background-color: #D52B1E;
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
 }
+
+#obtained, #result {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 1s ease;
+}
+
+.hidden { opacity: 0; }
+.visible { opacity: 1; }
 
 
     </style>
@@ -360,7 +290,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
-            <a href="index.php?controller=pages&action=CULTURE">Culture</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
             <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>
