@@ -31,18 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nationalite = $_POST['nationalite'];
     $mot_de_passe = $_POST['mot_de_passe'];
 
-    if ($model->emailExiste($email)) {
-        echo "L'adresse email est déjà utilisée.";
+    // Vérification des doublons
+    if ($model->utilisateurExiste($nom, $prenom, $tel, $email)) {
+        $_SESSION['message'] = "Un utilisateur avec le même nom, prénom, téléphone ou email existe déjà.";
     } else {
-        $user_id = $model->ajouterUtilisateur($nom, $prenom, $email, $tel, $nationalite,$mot_de_passe);
+        $user_id = $model->ajouterUtilisateur($nom, $prenom, $email, $tel, $nationalite, $mot_de_passe);
         
         if ($user_id) {
+            $_SESSION['message'] = "Inscription réussie !";
             header("Location: index.php?controller=connexion&action=ESPACE");
             exit;
         } else {
-            echo "Erreur lors de l'inscription. Veuillez réessayer.";
+            $_SESSION['message'] = "Erreur lors de l'inscription. Veuillez réessayer.";
         }
     }
+    
+
 }
 ?>
 
@@ -255,6 +259,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.9em;
             color: #D0D0D0;
         }
+        .notification {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -327,6 +346,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </section>
 
+    <!-- Notification -->
+    <div id="message-container" class="notification">
+        <?php 
+        if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
+            echo $_SESSION['message'];
+            unset($_SESSION['message']); // Supprimer le message après l'affichage
+        }
+        ?>
+    </div>
+
+
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -368,5 +398,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             © 2024 Consulat d'Algérie - Tous droits réservés
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var notification = document.getElementById('message-container');
+            
+            if (notification.innerHTML.trim() !== "") {
+                notification.style.display = 'block';
+                setTimeout(function() {
+                    notification.style.opacity = '0';
+                    setTimeout(function() {
+                        notification.style.display = 'none';
+                    }, 1000); // Délai pour la transition de disparition
+                }, 3000); // Durée d'affichage de la notification (3 secondes)
+            }
+        });
+    </script>
+
 </body>
 </html>

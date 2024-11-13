@@ -185,7 +185,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
-    background: rgba(255, 255, 255, 0.8);
+    background: #ffffff; /* Couleur blanche opaque */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
@@ -452,7 +452,7 @@ footer {
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
-            <a href="index.php?controller=pages&action=CULTURE">Culture</a>
+            <a href="index.php?controller=pages&action=CULTURE">Culture de l'Algérie</a>
             <a href="index.php?controller=pages&action=PRESSE">Presse</a>
             <a href="index.php?controller=pages&action=LOTERIE">Loterie</a>
             <a href="index.php?controller=pages&action=TIRAGE">Tirage</a>

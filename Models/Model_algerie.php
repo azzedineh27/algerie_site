@@ -30,11 +30,34 @@ class Model_algerie {
                     ':nationalite' => $nationalite,
                     ':mot_de_passe' => $hashed_password
                 ]);
-                $this->logMessage("Utilisateur ajouté avec succès : $nom $prenom");  // Utilisez $this->logMessage()
+                $this->logMessage("Utilisateur ajouté avec succès : $nom $prenom");
+                return $this->pdo->lastInsertId(); // Retourne l'ID de l'utilisateur ajouté
             } catch (PDOException $e) {
-                $this->logMessage("Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage());  // Utilisez $this->logMessage()
+                $this->logMessage("Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage());
+                return false; // Retourne false en cas d'erreur
             }
         }
+        
+
+        public function utilisateurExiste($nom, $prenom, $tel, $email) {
+            try {
+                $sql = "SELECT * FROM users WHERE nom = :nom OR prenom = :prenom OR tel = :tel OR email = :email";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([
+                    ':nom' => $nom,
+                    ':prenom' => $prenom,
+                    ':tel' => $tel,
+                    ':email' => $email
+                ]);
+                $existe = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->logMessage("Vérification d'utilisateur pour doublons avec nom: $nom, prénom: $prenom, tel: $tel, email: $email");
+                return $existe;
+            } catch (PDOException $e) {
+                $this->logMessage("Erreur lors de la vérification de l'existence de l'utilisateur : " . $e->getMessage());
+                return false;
+            }
+        }
+        
 
      // Vérifier si un email existe déjà
      public function emailExiste($email) {

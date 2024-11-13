@@ -51,7 +51,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
-    background: rgba(255, 255, 255, 0.8);
+    background: #ffffff; /* Couleur blanche opaque */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
@@ -126,6 +126,25 @@ nav {
 
 .consulat-title:hover {
     transform: rotateY(15deg) rotateX(5deg);
+}
+
+.background-video {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Remplit la hauteur de l'écran */
+    overflow: hidden;
+}
+
+#bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw; /* S'adapte à la largeur de l'écran */
+    height: auto;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover; /* Permet de bien couvrir toute la zone */
 }
 
 /* Section Présentation */
@@ -292,6 +311,12 @@ footer {
         color: #006233;
     }
 }
+
+/* Masquer le menu hamburger par défaut */
+.menu-toggle {
+    display: none;
+}
+
 
 /* Sections pour écrans petits */
 @media (max-width: 768px) {
