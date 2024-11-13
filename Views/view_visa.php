@@ -162,259 +162,284 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
         /* Styles de base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body, html {
-            height: 100%;
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f1f1f1;
-            color: #333;
-            scroll-behavior: smooth;
-        }
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
-        .logo {
-            font-family: 'Roboto Slab', serif;
-            font-size: 1.8em;
-            color: #006233;
-        }
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            margin-right: auto;
-            padding-left: 50px;
-        }
-        .nav-links a {
-            font-size: 1em;
-            color: #006233;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #D52B1E;
-        }
-        .action-btns {
-            display: flex;
-            gap: 15px;
-        }
-        .contact-btn {
-            border: 2px solid #006233;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #006233;
-            font-size: 1em;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .contact-btn:hover {
-            background-color: #D52B1E;
-            color: white;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* Formulaire Visa */
-        .visa-form-section {
-            padding: 30px 20px;
-            background-color: #f9f9f9;
-            text-align: center;
-            margin-top: 80px;
-        }
-        .visa-form-section h2 {
-            font-size: 2em;
-            color: #006233;
-            margin-bottom: 20px;
-        }
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        form div {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        label {
-            font-size: 1em;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            font-size: 0.9em;
-            border: 2px solid #006233;
-            border-radius: 5px;
-            outline: none;
-        }
-        .visa-form-submit {
-            margin-top: 20px;
-            background-color: #006233;
-            color: white;
-            padding: 12px 25px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .visa-form-submit:hover {
-            background-color: #D52B1E;
-        }
-        .error-message {
-            background-color: #D52B1E;
-            color: white;
-            padding: 10px;
-            margin-bottom: 15px;
-            text-align: left;
-            border-radius: 5px;
-        }
-        .success-message {
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            margin-bottom: 15px;
-            text-align: left;
-            border-radius: 5px;
-        }
-        footer {
-            padding: 15px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
-            margin-top: 40px;
-        }
+body, html {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f1f1f1;
+    color: #333;
+    scroll-behavior: smooth;
+}
 
-        .payment-overlay {
-            display: <?php echo $showPaymentForm ? 'flex' : 'none'; ?>;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+/* Navbar */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
 
-        .payment-form {
-            position: relative; /* Ajouté pour que .close-button soit relative à .payment-form */
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .payment-form input {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .payment-form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #006233;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .payment-form button:hover {
-            background-color: #D52B1E;
-        }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            /* z-index: 1001; cette ligne n'est pas nécessaire, mais vous pouvez la garder */
-        }
+.logo {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.8em;
+    color: #006233;
+}
 
-        .close-button:hover {
-            color: #D52B1E;
-        }
+.nav-links {
+    display: flex;
+    gap: 20px;
+    margin-right: auto;
+    padding-left: 50px;
+}
 
-        footer {
-            padding: 40px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Open Sans', sans-serif;
-        }
+.nav-links a {
+    font-size: 1em;
+    color: #006233;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            max-width: 1200px;
-            width: 100%;
-        }
+.nav-links a:hover {
+    color: #D52B1E;
+}
 
-        .footer-link {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
+.action-btns {
+    display: flex;
+    gap: 15px;
+}
 
-        .footer-link:hover {
-            color: #D52B1E; /* Rouge du drapeau */
-        }
+.contact-btn {
+    border: 2px solid #006233;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #006233;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .footer-section {
-            text-align: center;
-        }
+.contact-btn:hover {
+    background-color: #D52B1E;
+    color: white;
+}
 
-        .footer-section h4 {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #D0D0D0;
-            font-family: 'Roboto Slab', serif;
-        }
+/* Formulaire Visa */
+.visa-form-section {
+    padding: 30px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+    margin-top: 80px;
+}
 
-        .footer-links {
-            list-style-type: none;
-            padding: 0;
-        }
+.visa-form-section h2 {
+    font-size: 2em;
+    color: #006233;
+    margin-bottom: 20px;
+}
 
-        .footer-links li {
-            margin-bottom: 10px;
-        }
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .footer-bottom {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #D0D0D0;
-        }
+form div {
+    margin-bottom: 15px;
+    text-align: left;
+}
 
+label {
+    font-size: 1em;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9em;
+    border: 2px solid #006233;
+    border-radius: 5px;
+    outline: none;
+}
+
+.visa-form-submit {
+    margin-top: 20px;
+    background-color: #006233;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.visa-form-submit:hover {
+    background-color: #D52B1E;
+}
+
+.payment-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.payment-form {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.payment-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #006233;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.payment-form button:hover {
+    background-color: #D52B1E;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: #D52B1E;
+}
+
+footer {
+    padding: 40px 0;
+    background-color: #006233;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #D52B1E;
+}
+
+.footer-section h4 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #D0D0D0;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #D0D0D0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-links, .action-btns {
+        display: none;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.9);
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 20px;
+        gap: 20px;
+        z-index: 100;
+    }
+
+    .nav-links.active, .action-btns.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #006233;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+}
 
     </style>
 </head>
@@ -423,6 +448,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Navbar -->
     <nav>
         <div class="logo">Consulat d'Algérie</div>
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
@@ -650,6 +676,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+        const actionBtns = document.querySelector(".action-btns");
+
+        menuToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            actionBtns.classList.toggle("active");
+        });
+    });
+
+    function closePaymentForm() {
+        document.getElementById("paymentOverlay").style.display = "none";
+        document.getElementById("visaFormSection").style.filter = "none"; // Enlever le flou
+    }
+</script>
+
 
 
 </body>

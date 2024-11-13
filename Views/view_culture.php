@@ -26,252 +26,298 @@ if (isset($_SESSION['user_id'])) {
         @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
         @import url('https://fonts.cdnfonts.com/css/poppins');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* Styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Add this line to push footer to the bottom */
-            padding-top: 80px;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 80px;
+}
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #006233;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #006233;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
 
-        .logo {
-            font-family: 'Roboto Slab', serif;
-            font-size: 2em;
-            color: white;
-        }
+.logo {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2em;
+    color: white;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            margin-right: auto;
-            padding-left: 50px;
-        }
+.nav-links {
+    display: flex;
+    gap: 30px;
+    margin-right: auto;
+    padding-left: 50px;
+}
 
-        .nav-links a {
-            font-size: 1.1em;
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+.nav-links a {
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-        .nav-links a:hover {
-            color: #D52B1E;
-        }
+.nav-links a:hover {
+    color: #D52B1E;
+}
 
-        .action-btns {
-            display: flex;
-            gap: 20px;
-        }
+.action-btns {
+    display: flex;
+    gap: 20px;
+}
 
-        .contact-btn {
-            border: 2px solid white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            color: white;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+.contact-btn {
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .contact-btn:hover {
-            background-color: white;
-            color: #D52B1E;
-        }
+.contact-btn:hover {
+    background-color: white;
+    color: #D52B1E;
+}
 
-        /* Section Présentation */
-        .presentation {
-            background-color: #006233;
-            color: white;
-            padding: 50px;
-            text-align: center;
-        }
+/* Section Présentation */
+.presentation {
+    background-color: #006233;
+    color: white;
+    padding: 50px;
+    text-align: center;
+}
 
-        .presentation h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
+.presentation h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
 
-        .presentation p {
-            font-size: 1.2em;
-            line-height: 1.8em;
-            margin-bottom: 10px;
-        }
+.presentation p {
+    font-size: 1.2em;
+    line-height: 1.8em;
+    margin-bottom: 10px;
+}
 
-        /* Section contenant Gastronomie et Palmarès */
-        .content-sections {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            background-color: #F5F5F5;
-        }
+/* Section contenant Gastronomie et Palmarès */
+.content-sections {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #F5F5F5;
+}
 
-        /* Section Gastronomie */
-        .gastronomie {
-            padding: 50px;
-            text-align: center;
-        }
+/* Section Gastronomie */
+.gastronomie {
+    padding: 50px;
+    text-align: center;
+}
 
-        .gastronomie h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #25283B;
-        }
+.gastronomie h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #25283B;
+}
 
-        .gastronomie .gastronomie-details {
-            display: flex;
-            justify-content: space-around;
-            gap: 50px;
-            flex-wrap: wrap;
-        }
+.gastronomie .gastronomie-details {
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+    flex-wrap: wrap;
+}
 
-        .gastronomie .gastronomie-item {
-            max-width: 300px;
-            text-align: center;
-        }
+.gastronomie .gastronomie-item {
+    max-width: 300px;
+    text-align: center;
+}
 
-        .gastronomie .gastronomie-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
+.gastronomie .gastronomie-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
 
-        .gastronomie .gastronomie-item img:hover {
-            transform: scale(1.05);
-        }
+.gastronomie .gastronomie-item img:hover {
+    transform: scale(1.05);
+}
 
-        .gastronomie .gastronomie-item p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            color: #25283B;
-        }
+.gastronomie .gastronomie-item p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #25283B;
+}
 
-        /* Section Palmarès */
-        .section_trophies {
-            padding: 50px;
-            text-align: center;
-            overflow: visible;
-            background: #F5F5F5;
-        }
+/* Section Palmarès */
+.section_trophies {
+    padding: 50px;
+    text-align: center;
+    overflow: visible;
+    background: #F5F5F5;
+}
 
-        .section_trophies h2 {
-            font-size: 2.5em;
-            color: #25283B;
-            margin-bottom: 20px;
-        }
+.section_trophies h2 {
+    font-size: 2.5em;
+    color: #25283B;
+    margin-bottom: 20px;
+}
 
-        .trophies {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+.trophies {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
-        .trophy-item {
-            width: 200px;
-            background-color: #006233;
-            color: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
+.trophy-item {
+    width: 200px;
+    background-color: #006233;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
 
-        .trophy-item:hover {
-            transform: scale(1.05);
-        }
+.trophy-item:hover {
+    transform: scale(1.05);
+}
 
-        .trophy-item h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
+.trophy-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
 
-        .trophy-item p {
-            font-size: 1.1em;
-        }
+.trophy-item p {
+    font-size: 1.1em;
+}
 
-        footer {
-            width: 100%; /* Ensure footer spans the full width */
-            padding: 40px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Open Sans', sans-serif;
-            margin-top: auto; /* Pushes footer to the bottom */
-        }
+footer {
+    width: 100%;
+    padding: 40px 0;
+    background-color: #006233;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+}
 
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            max-width: 1200px;
-            width: 100%;
-        }
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
 
-        .footer-link {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
 
-        .footer-link:hover {
-            color: #D52B1E; /* Rouge du drapeau */
-        }
+.footer-link:hover {
+    color: #D52B1E;
+}
 
-        .footer-section {
-            text-align: center;
-        }
+.footer-section {
+    text-align: center;
+}
 
-        .footer-section h4 {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #D0D0D0;
-            font-family: 'Roboto Slab', serif;
-        }
+.footer-section h4 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #D0D0D0;
+}
 
-        .footer-links {
-            list-style-type: none;
-            padding: 0;
-        }
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+}
 
-        .footer-links li {
-            margin-bottom: 10px;
-        }
+.footer-links li {
+    margin-bottom: 10px;
+}
 
-        .footer-bottom {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #D0D0D0;
-        }
+.footer-bottom {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #D0D0D0;
+}
+
+/* Styles pour le menu hamburger sur petits écrans */
+@media (max-width: 768px) {
+    .nav-links, .action-btns {
+        display: none;
+        flex-direction: column;
+        background-color: rgba(0, 98, 51, 0.9);
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 20px;
+        gap: 20px;
+        z-index: 100;
+    }
+
+    .nav-links.active, .action-btns.active {
+        display: flex; /* Affiche les éléments lorsque la classe active est ajoutée */
+    }
+
+    .nav-links a, .action-btns a, .action-btns span {
+        color: white;
+        font-size: 1.2em;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: white;
+    }
+
+    .content-sections, .presentation {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+}
 
     </style>
 </head>
@@ -279,6 +325,7 @@ if (isset($_SESSION['user_id'])) {
 <body>
     <nav>
         <div class="logo">Consulat d'Algérie</div>
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
@@ -400,5 +447,19 @@ if (isset($_SESSION['user_id'])) {
             © 2024 Consulat d'Algérie - Tous droits réservés
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const actionBtns = document.querySelector('.action-btns');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                actionBtns.classList.toggle('active');
+            });
+        });
+</script>
+
 </body>
 </html>

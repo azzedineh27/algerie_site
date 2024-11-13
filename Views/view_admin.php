@@ -82,216 +82,259 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <style>
     /* Styles de base */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    body, html {
-        height: 100%;
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f1f1f1;
-        color: #333;
-        scroll-behavior: smooth;
-    }
+body, html {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f1f1f1;
+    color: #333;
+    scroll-behavior: smooth;
+}
 
-    nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 50px;
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-    }
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
 
-    .logo {
-        font-family: 'Roboto Slab', serif;
-        font-size: 2em;
-        color: #006233;
-    }
+.logo {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2em;
+    color: #006233;
+}
 
-    .nav-links {
-        display: flex;
-        gap: 30px;
-        margin-right: auto;
-        padding-left: 50px;
-    }
+.nav-links {
+    display: flex;
+    gap: 30px;
+    margin-right: auto;
+    padding-left: 50px;
+}
 
-    .nav-links a {
-        font-size: 1.1em;
-        color: #006233;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
+.nav-links a {
+    font-size: 1.1em;
+    color: #006233;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-    .nav-links a:hover {
-        color: #D52B1E;
-    }
+.nav-links a:hover {
+    color: #D52B1E;
+}
 
-    .action-btns {
-        display: flex;
-        gap: 20px;
-    }
+.action-btns {
+    display: flex;
+    gap: 20px;
+}
 
-    .contact-btn {
-        border: 2px solid #006233;
-        padding: 10px 20px;
-        border-radius: 25px;
-        text-decoration: none;
-        color: #006233;
-        font-size: 1.1em;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+.contact-btn {
+    border: 2px solid #006233;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #006233;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-    .contact-btn:hover {
-        background-color: #D52B1E;
-        color: white;
-    }
+.contact-btn:hover {
+    background-color: #D52B1E;
+    color: white;
+}
 
-    /* Formulaire Admin */
-    .admin-form-section {
-        padding: 50px 50px;
-        background-color: #f9f9f9;
-        text-align: center;
-        margin-top: 100px;
-    }
+/* Formulaire Admin */
+.admin-form-section {
+    padding: 50px 50px;
+    background-color: #f9f9f9;
+    text-align: center;
+    margin-top: 100px;
+}
 
-    .admin-form-section h2 {
-        font-size: 2.5em;
-        color: #006233;
-        margin-bottom: 30px;
-    }
+.admin-form-section h2 {
+    font-size: 2.5em;
+    color: #006233;
+    margin-bottom: 30px;
+}
 
-    form {
-        max-width: 800px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    form div {
-        margin-bottom: 20px;
-        text-align: left;
-    }
+form div {
+    margin-bottom: 20px;
+    text-align: left;
+}
 
-    label {
-        font-size: 1.1em;
-        margin-bottom: 5px;
-        display: block;
-        color: #333;
-    }
+label {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
 
-    input, select {
-        width: 100%;
-        padding: 10px;
-        font-size: 1em;
-        border: 2px solid #006233;
-        border-radius: 5px;
-        outline: none;
-        appearance: none; /* Pour masquer la flèche de sélection */
-        background-color: white;
-        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"%3E%3Cpath d="M0 3l5 5 5-5z" fill="%23006233"/%3E%3C/svg%3E');
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-    }
+input, select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid #006233;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    background-color: white;
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+}
 
-    .admin-form-submit {
-        margin-top: 30px;
-        background-color: #006233;
-        color: white;
-        padding: 15px 30px;
-        font-size: 1.2em;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+.admin-form-submit {
+    margin-top: 30px;
+    background-color: #006233;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .admin-form-submit:hover {
-        background-color: #D52B1E;
-    }
+.admin-form-submit:hover {
+    background-color: #D52B1E;
+}
 
-    
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+}
 
-    .notification {
+footer {
+    padding: 40px 0;
+    background-color: #006233;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #D52B1E;
+}
+
+.footer-section {
+    text-align: center;
+}
+
+.footer-section h4 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #D0D0D0;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #D0D0D0;
+}
+
+/* Styles pour le menu hamburger sur petits écrans */
+@media (max-width: 768px) {
+    .nav-links, .action-btns {
         display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        flex-direction: column;
         background-color: rgba(255, 255, 255, 0.9);
-        color: #333;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        opacity: 1;
-        transition: opacity 0.5s ease;
-        z-index: 1000;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 20px;
+        gap: 20px;
+        z-index: 100;
     }
-    
-    footer {
-            padding: 40px 0;
-            background-color: #006233;
-            color: white;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Open Sans', sans-serif;
-        }
 
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            max-width: 1200px;
-            width: 100%;
-        }
+    .nav-links.active, .action-btns.active {
+        display: flex; /* Affiche les éléments lorsque la classe active est ajoutée */
+    }
 
-        .footer-link {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
+    .nav-links a, .action-btns a {
+        color: #006233;
+        font-size: 1.2em;
+        margin: 10px;
+        text-align: center;
+    }
 
-        .footer-link:hover {
-            color: #D52B1E; /* Rouge du drapeau */
-        }
+    .menu-toggle {
+        display: block;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #006233;
+    }
 
-        .footer-section {
-            text-align: center;
-        }
+    .admin-form-section, form {
+        padding: 20px;
+        margin-top: 80px;
+    }
 
-        .footer-section h4 {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #D0D0D0;
-            font-family: 'Roboto Slab', serif;
-        }
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+}
 
-        .footer-links {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-bottom {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #D0D0D0;
-        }
 </style>
 
 
@@ -303,6 +346,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <!-- Navbar -->
       <nav>
         <div class="logo">Admin - Consulat d'Algérie</div>
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
@@ -434,6 +478,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000); // Durée d'affichage de la notification (3 secondes)
     }
 });
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const actionBtns = document.querySelector('.action-btns');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            actionBtns.classList.toggle('active');
+        });
+    });
 
 </script>
 
