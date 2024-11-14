@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             backdrop-filter: blur(8px); /* Augmentation légère du flou */
             position: relative; /* Position relative pour ajuster la couche */
-            margin-top: 200px; /* Pour éviter que le formulaire soit caché par la navbar */
+            margin-top: 100px; /* Pour éviter que le formulaire soit caché par la navbar */
         }
 
         h2 {

@@ -96,6 +96,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $expiration_date = $_POST['expiration_date'];
         $currentDate = new DateTime('now');
         $expirationDate = DateTime::createFromFormat('Y-m', $expiration_date);
+
+        if (!preg_match('/^\d{16}$/', $card_number)) {
+            $errors['card_number'] = "Le numéro de carte bancaire doit comporter 16 chiffres.";
+        }
+        if (!preg_match('/^\d{3}$/', $cvv)) {
+            $errors['cvv'] = "Le code CVV doit comporter 3 chiffres.";
+        }
+        if ($expirationDate <= $currentDate) {
+            $errors['expiration_date'] = "La date d'expiration de la carte doit être postérieure à la date actuelle.";
+        }
+        
+        // Rendre le formulaire de paiement visible en cas d'erreur
+        if (!empty($errors)) {
+            $showPaymentForm = true;
+        }
+        
         
         // Si pas d'erreurs de paiement, créer la demande de visa
         if (empty($errors)) {
@@ -354,6 +370,11 @@ input, select {
 .close-button:hover {
     color: #D52B1E;
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
 
 footer {
     padding: 40px 0;
@@ -529,19 +550,31 @@ footer {
     <div class="payment-overlay" id="paymentOverlay" style="<?php echo $showPaymentForm ? 'display: flex;' : 'display: none;'; ?>">
     <!-- Contenu du formulaire de paiement -->
         <div class="payment-form">
-            <!-- Bouton de fermeture -->
+        <!-- Bouton de fermeture -->
             <span class="close-button" onclick="closePaymentForm()">×</span>
             
             <h3>Informations de Paiement</h3>
             <form method="POST">
-                <input type="text" name="card_number" placeholder="Numéro de Carte (16 chiffres)" required>
-                <?php if (isset($errors['card_number'])) echo "<div class='error-message'>{$errors['card_number']}</div>"; ?>
+                <div>
+                    <input type="text" name="card_number" placeholder="Numéro de Carte (16 chiffres)" required>
+                    <?php if (isset($errors['card_number'])): ?>
+                        <div class='error-message'><?php echo $errors['card_number']; ?></div>
+                    <?php endif; ?>
+                </div>
                 
-                <input type="text" name="cvv" placeholder="Code CVV (3 chiffres)" required>
-                <?php if (isset($errors['cvv'])) echo "<div class='error-message'>{$errors['cvv']}</div>"; ?>
+                <div>
+                    <input type="text" name="cvv" placeholder="Code CVV (3 chiffres)" required>
+                    <?php if (isset($errors['cvv'])): ?>
+                        <div class='error-message'><?php echo $errors['cvv']; ?></div>
+                    <?php endif; ?>
+                </div>
                 
-                <input type="month" name="expiration_date" placeholder="Date d'Expiration (MM/AA)" required>
-                <?php if (isset($errors['expiration_date'])) echo "<div class='error-message'>{$errors['expiration_date']}</div>"; ?>
+                <div>
+                    <input type="month" name="expiration_date" placeholder="Date d'Expiration (MM/AA)" required>
+                    <?php if (isset($errors['expiration_date'])): ?>
+                        <div class='error-message'><?php echo $errors['expiration_date']; ?></div>
+                    <?php endif; ?>
+                </div>
                 
                 <button type="submit" name="paymentFormSubmit">Valider le Paiement</button>
             </form>
