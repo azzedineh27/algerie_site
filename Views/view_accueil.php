@@ -294,9 +294,12 @@ footer {
         z-index: 100; /* Ajoute un niveau de z-index pour être au-dessus du contenu */
     }
 
-    .nav-links.active, .action-btns.active {
-        display: flex; /* Affiche les éléments lorsque la classe active est ajoutée */
-    }
+    /* Afficher le menu lorsque le menu toggle est actif */
+.nav-links.active, .action-btns.active {
+    display: flex; /* S'assure que le menu est visible */
+    flex-direction: column;
+}
+
 
     .nav-links a, .action-btns a, .action-btns span {
         margin: 10px 20px;
@@ -311,41 +314,52 @@ footer {
         color: #006233;
     }
 }
-
-/* Masquer le menu hamburger par défaut */
+/* Par défaut, le menu hamburger est caché sur les grands écrans */
 .menu-toggle {
     display: none;
 }
 
-
-/* Sections pour écrans petits */
+/* Afficher le menu hamburger uniquement sur les petits écrans */
 @media (max-width: 768px) {
-    .presentation, .section {
-        padding: 50px 20px;
+    .menu-toggle {
+        display: block;
+        font-size: 1.8em;
+        cursor: pointer;
+        color: #006233;
+    }
+
+    /* Masquer les liens de navigation par défaut sur les petits écrans */
+    .nav-links, .action-btns {
+        display: none; /* caché par défaut */
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.9);
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 20px;
+        gap: 20px;
+        z-index: 100;
+    }
+
+    .nav-links a, .action-btns a, .action-btns span {
+        margin: 10px 20px;
+        font-size: 1.2em;
         text-align: center;
     }
-
-    .section {
-        flex-direction: column;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .footer-section h4, .footer-links li {
-        font-size: 1em;
-    }
 }
+
+
   
     </style>
 </head>
 <body>
+<!--NAVBAR-->
     <nav>
         <div class="logo">Consulat d'Algérie</div>
-        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
         <div class="nav-links">
             <a href="index.php">Accueil</a>
             <a href="index.php?controller=pages&action=VISA">Visa</a>
@@ -366,7 +380,8 @@ footer {
     </nav>
 
 
-    <!-- Background Video Section -->
+
+    <!-- Video Section -->
     <div class="background-video">
         <video autoplay muted loop id="bg-video">
             <source src="Video/algerie_video.mp4" type="video/mp4">
@@ -406,7 +421,7 @@ footer {
         </div>
     </section>
 
-    <footer>
+    <footer><!--FOOTER-->
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Navigation</h4>
@@ -450,15 +465,16 @@ footer {
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const navLinks = document.querySelector(".nav-links");
-        const actionBtns = document.querySelector(".action-btns");
+            const menuToggle = document.querySelector(".menu-toggle");
+            const navLinks = document.querySelector(".nav-links");
+            const actionBtns = document.querySelector(".action-btns");
 
             menuToggle.addEventListener("click", () => {
                 navLinks.classList.toggle("active");
                 actionBtns.classList.toggle("active");
             });
         });
+
     </script>
 </body>
 </html>

@@ -125,3 +125,13 @@
 2024-11-14 08:55:20 - Tous les feedbacks ont été récupérés.
 2024-11-14 08:55:20 - Moyenne des notes calculée : 8.6667
 2024-11-14 08:58:44 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-14 09:05:52 - Authentification réussie pour l'utilisateur : admin_nana@gmail.com
+2024-11-14 09:05:54 - Tous les utilisateurs non algériens ont été récupérés avec succès.
+2024-11-14 09:06:20 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-14 09:06:20 - Récupération de toutes les nationalités
+2024-11-14 09:07:12 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-14 09:07:12 - Récupération de toutes les nationalités
+2024-11-14 09:07:25 - Vérification de demande de visa pour l'utilisateur ID : 3
+2024-11-14 09:07:25 - Récupération de toutes les nationalités
+2024-11-14 09:07:25 - Récupération de l'ID pour la nationalité : Algérienne
+2024-11-14 09:07:25 - Demande de visa créée pour l'utilisateur ID : 3
