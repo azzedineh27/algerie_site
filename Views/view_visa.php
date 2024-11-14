@@ -20,13 +20,17 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     $lien_account = 'index.php?controller=connexion&action=ESPACE';
 
+    // Récupérer la nationalité de l'utilisateur connecté
+    $utilisateur = $model->getUtilisateurById($user_id);
+    $nationaliteUtilisateur = $utilisateur['nationalite'] ?? ''; // Assigner la nationalité ou une valeur par défaut vide
+
     // Vérifier si une demande de visa est déjà en cours
     if ($model->demandeVisaExiste($user_id)) {
         // Rediriger l'utilisateur vers une page indiquant une demande de visa en cours
         header("Location: index.php?controller=pages&action=VISA_EXISTANT");
         exit;
     }
-} else {
+}else {
     // Si l'utilisateur n'est pas connecté, le rediriger vers une page d'erreur ou de connexion
     header("Location: index.php?controller=connexion&action=ERREUR_VISA");
     exit;
@@ -39,16 +43,23 @@ $errors = []; // Pour stocker les erreurs du formulaire de paiement
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['visaFormSubmit'])) {
-        // Récupérer les données du formulaire de visa
-        $_SESSION['visa_data'] = [
-            'nom' => $_POST['nom'],
-            'prenom' => $_POST['prenom'],
-            'tel' => $_POST['tel'],
-            'nationalite' => trim($_POST['nationalite']),
-            'num_passeport' => $_POST['passeport'],
-            'date_creation' => $_POST['datecreation'],
-            'date_validite' => $_POST['datevalidite']
-        ];
+        // Récupérer la nationalité choisie dans le formulaire
+        $nationaliteChoisie = trim($_POST['nationalite']);
+    
+        // Vérifier que la nationalité choisie est la même que celle de l'utilisateur connecté
+        if ($nationaliteChoisie !== $nationaliteUtilisateur) {
+            $message = "<div class='error-message'>Erreur : La nationalité choisie doit correspondre à votre nationalité enregistrée.</div>";
+        } else {
+            // Si la nationalité est correcte, continuez le traitement comme avant
+            $_SESSION['visa_data'] = [
+                'nom' => $_POST['nom'],
+                'prenom' => $_POST['prenom'],
+                'tel' => $_POST['tel'],
+                'nationalite' => $nationaliteChoisie,
+                'num_passeport' => $_POST['passeport'],
+                'date_creation' => $_POST['datecreation'],
+                'date_validite' => $_POST['datevalidite']
+            ];
 
             // Vérification du délai de 10 ans entre la date de création et la date de validité du passeport
             $dateCreationObj = new DateTime($_SESSION['visa_data']['date_creation']);
@@ -76,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $message = "<div class='error-message'>Veuillez télécharger un fichier de passeport valide.</div>";
                 }
+            }
         } elseif (isset($_POST['paymentFormSubmit'])) {
         // Récupérer les données de session du formulaire de visa
         if (isset($_SESSION['visa_data'])) {
